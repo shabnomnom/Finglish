@@ -1,6 +1,7 @@
-"""Models and database functions for Ratings project."""
+"""Models and database functions for finglish project."""
 
 from flask_sqlalchemy import SQLAlchemy
+
 
 # This is the connection to the PostgreSQL database; we're getting this through
 # the Flask-SQLAlchemy helper library. On this, we can find the `session`
@@ -30,7 +31,7 @@ class User(db.Model):
 
 
 class Word(db.Model):
-    """"""
+    """word info """
 
     __tablename__ = "words"
 
@@ -38,7 +39,7 @@ class Word(db.Model):
     english_word = db.Column(db.String(100), nullable=False)
     farsi_phenetic= db.Column(db.String(100), nullable=False)
     farsi_word = db.Column(db.String(100), nullable=False)
-    img_url = db.Column(db.string(500) nullable=True)
+    img_url = db.Column(db.String(500), nullable=True)
     ## picture to be determined 
 
     def __repr__(self):
@@ -49,39 +50,28 @@ class Word(db.Model):
 
 
 
-class Vocabulary(db.model):
-    """words that have been exposed to the users"""
+class Vocabulary(db.Model):
+    """user vocabs """
+
+    __tablename__= "vocabs"
+
     vocab_id = db.Column(db.Integer, autoincrement= True, primary_key =True)
     user_id = db.Column(db.Integer,db.ForeignKey('users.user_id'))
     word_id = db.Column(db.Integer,db.ForeignKey('words.word_id'))
 
+    user = db.relationship('User', backref=db.backref('vocabs'), order_by=vocab_id)
+
+    word = db.relationship('Word', backref=db.backref('vocabs'), order_by=vocab_id)
+
     def __repr__(self):
         """Provide helpful representation when printed."""
 
-        return "<Vocabs english_word={} farsi_word={}>".format(self.english_word,
-         self.farsi_word)
+        return "<Vocabs  vocab_id={} user_id={} word_id={}>".format(self.vocab_id,
+        self.user_id , self.word_id)
 
 
 
-
-
-
-
-        
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+   
 
 
 
