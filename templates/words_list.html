@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>View all words </h1>
+
+<ul>
+    {% for word in words %}
+
+        <li href = "/words/{{word.word_id}}" >{{word.farsi_word}}
+            <ul style="list-style-type:circle">
+                <li> Translation: {{word.english_word}}</li>
+                <li> Phenetic: {{word.farsi_phenetic}}</li>
+                <li> <a href = "/words/{{word.word_id}}" >pronounciation</li>
+                </a>
+            </ul>
+                                
+                                        
+          
+        </li>
+
+    {% endfor %}
+
+</ul>
+
+{% endblock %}

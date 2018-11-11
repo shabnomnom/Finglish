@@ -6,7 +6,7 @@ from bs4 import BeautifulSoup
 import urllib, urllib.parse, urllib.error
 
 #get the resource 
-url='http://mylanguages.org/farsi_vocabulary.php'
+# url='http://mylanguages.org/farsi_vocabulary.php'
 
 #open the page and read it 
 page = urllib.request.urlopen(url).read()
@@ -29,4 +29,5 @@ with open ('vocabs_#.csv', 'w') as csv:
         
 
 
-# ran tables[0] and table [1] to have all the tables save the data in 
+# ran tables[0] and table [1] to have all the tables save the data in
+ 

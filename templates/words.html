@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>View all words </h1>
+
+
+{%for word in words%}
+<li>{{word}}
+</li>
+
+{% endfor block %}
+
+{% endcontent %}
