@@ -53,32 +53,26 @@ class Word(db.Model):
 
 
 class Vocabulary(db.Model):
-    """user vocabs """
+    """user vocab lists """
 
     __tablename__= "vocabs"
 
     vocab_id = db.Column(db.Integer, autoincrement= True, primary_key =True)
     user_id = db.Column(db.Integer,db.ForeignKey('users.user_id'))
-    word_id = db.Column(db.Integer,db.ForeignKey('words.word_id'))
 
     user = db.relationship('User', backref=db.backref('vocabs'), order_by=vocab_id)
 
-    word = db.relationship('Word', backref=db.backref('vocabs'), order_by=vocab_id)
+    words = db.relationship('Word', backref=db.backref('vocabs'), order_by=vocab_id)
 
     def __repr__(self):
         """Provide helpful representation when printed."""
 
-        return "<Vocabs  vocab_id={} user_id={} word_id={}>".format(self.vocab_id,
-        self.user_id , self.word_id)
-
-
-
-   
-
+        return "<Vocabs {} for {} | {} words>".format(self.vocab_id, self.user_id , len(self.words)
 
 
 ##############################################################################
 # Helper functions
+
 
 def connect_to_db(app):
     """Connect the database to our Flask app."""
