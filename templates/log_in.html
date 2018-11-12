@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+<h3> Log in Using your email and password  </h3>
+
+<form action="/log_in" method='POST'>
+Email Address : <br>
+<input type='text' name='email'>
+<br>
+
+Password:<br>
+<input type='password' name='password'>
+
+<br>
+<input type="submit" >
+
+</form>
+
+{% endblock %}

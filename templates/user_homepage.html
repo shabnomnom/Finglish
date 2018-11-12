@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <h2>welcome back {{user.first_name}} {{user.last_name}}</h2>
+    <div>
+    country: {{country}}
+        <br></br>
+        Age:{{age}}
+        <br></br>
+    </div>
+
+
+    <ul>
+        Lesson One
+         {% for word in word_one %}
+            <ul style="list-style-type:disc">
+                <li> Translation: {{word.english_word}}</li>
+                <li> Phenetic: {{word.farsi_phenetic}}</li>
+
+            </ul>
+
+
+        {% endfor %}
+
+
+    
+
+{% endblock %}

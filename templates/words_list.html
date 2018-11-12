@@ -10,16 +10,17 @@
             <ul style="list-style-type:circle">
                 <li> Translation: {{word.english_word}}</li>
                 <li> Phenetic: {{word.farsi_phenetic}}</li>
-                <li> <a href = "/words/{{word.word_id}}" >pronounciation</li>
-                </a>
+
+                <li>   
+                <a href="/words/{{word.word_id}}" onclick="document.getElementById('pronounciation').submit();
+                return false;">pronounciation</a>
+                </form>
+
             </ul>
                                 
                                         
-          
-        </li>
+
 
     {% endfor %}
-
-</ul>
 
 {% endblock %}
