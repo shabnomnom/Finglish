@@ -12,19 +12,23 @@ db = SQLAlchemy()
 ####################################################################################
 
 # Model functions
+vocab_words = db.Table('vocab_words',
+    db.Column('vocab_id', db.Integer, db.ForeignKey('vocabs.id')),
+    db.Column('word_id', db.Integer, db.ForeignKey('words.id'))
+)
 
 class User(db.Model):
     """User of finglish website."""
 
     __tablename__ = "users"
 
-    user_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    first_name = db.Column(db.String(50), nullable=True)
-    last_name = db.Column(db.String(50), nullable=True)
-    email = db.Column(db.String(64), nullable=True)
-    password = db.Column(db.String(64), nullable=True)
-    age = db.Column(db.Integer, nullable=True)
-    country = db.Column(db.String(15), nullable=True)
+    user_id = db.Column(db.Integer, primary_key=True)
+    first_name = db.Column(db.String(50))
+    last_name = db.Column(db.String(50))
+    email = db.Column(db.String(100), nullable=False)
+    password = db.Column(db.String(255), nullable=False)
+    age = db.Column(db.Integer)
+    country = db.Column(db.String(15))
 
     def __repr__(self):
         """Provide helpful representation when printed."""
@@ -37,18 +41,17 @@ class Word(db.Model):
 
     __tablename__ = "words"
 
-    word_id = db.Column(db.Integer, autoincrement= True, primary_key =True)
-    english_word = db.Column(db.String(100), nullable=False)
-    farsi_phenetic= db.Column(db.String(100), nullable=False)
-    farsi_word = db.Column(db.String(100), nullable=False)
-    img_url = db.Column(db.String(500), nullable=True)
+    id = db.Column(db.Integer, autoincrement= True, primary_key =True)
+    english = db.Column(db.String(100), nullable=False)
+    farsi_phonetic= db.Column(db.String(100), nullable=False)
+    farsi = db.Column(db.String(100), nullable=False)
+    img_url = db.Column(db.String(500))
     ## picture to be determined 
 
     def __repr__(self):
         """Provide helpful representation when printed."""
 
-        return "<Word english_word={} farsi_word={}>".format(self.english_word,
-         self.farsi_word)
+        return "<Word english={} farsi={}>".format(self.english, self.farsi)
 
 
 
@@ -57,17 +60,16 @@ class Vocabulary(db.Model):
 
     __tablename__= "vocabs"
 
-    vocab_id = db.Column(db.Integer, autoincrement= True, primary_key =True)
-    user_id = db.Column(db.Integer,db.ForeignKey('users.user_id'))
+    id = db.Column(db.Integer, primary_key =True)
+    user_id = db.Column(db.Integer,db.ForeignKey('users.id'))
 
-    user = db.relationship('User', backref=db.backref('vocabs'), order_by=vocab_id)
-
-    words = db.relationship('Word', backref=db.backref('vocabs'), order_by=vocab_id)
+    user = db.relationship('User', backref=db.backref('vocabs'))
+    words = db.relationship('Word', backref=db.backref('vocabs'))
 
     def __repr__(self):
         """Provide helpful representation when printed."""
 
-        return "<Vocabs {} for {} | {} words>".format(self.vocab_id, self.user_id , len(self.words)
+        return "<Vocabs {} for {} | {} words>".format(self.vocab_id, self.user_id , len(self.words))
 
 
 ##############################################################################
