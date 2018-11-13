@@ -1,4 +1,3 @@
-
 """Finglish Dictionary """
 
 from jinja2 import StrictUndefined
@@ -22,12 +21,12 @@ app.secret_key = "ABC"
 # app.jinja_env.undefined = StrictUndefined
 
 
-
 @app.route('/')
 def index():
     """homepage"""
 
     return render_template('homepage.html')
+
 
 @app.route('/words')
 def all_words():
@@ -35,6 +34,7 @@ def all_words():
     words = Word.query.all()
 
     return render_template("words_list.html", words = words )
+
 
 # word.word_id is not defined and misleading syntax for python
 # change that with the word_id to create a new variable out of the number 
@@ -60,6 +60,7 @@ def processing_pronounciation(id):
 def registeration_form():
     """Loading registration page"""
     return render_template("registration.html")
+
 
 @app.route('/registration', methods=["POST"])
 def registeration_process():
@@ -87,10 +88,12 @@ def registeration_process():
 
     return redirect("/<user_id>")
 
+
 @app.route('/log_in')
 def view_login():
     """render log in page"""
     return render_template("log_in.html")
+
 
 @app.route('/Log_in', methods=["POST"])
 def login_process():
@@ -115,7 +118,8 @@ def login_process():
         flash ("invalid password, please try again")
         return redirect("/log_in")
 
-app.route("/log_out", methods=["POST"])
+    
+@app.route("/log_out", methods=["POST"])
 def logout_process():
     if session:
         session.clear()
@@ -123,73 +127,16 @@ def logout_process():
     return redirect("/")
 
 
-app.route("/<user_id>")
+@app.route("/<user_id>")
 def show_user_homepage(user_id):
     """show the user detail for the specific user id"""
 
     user = db.session.query(User).filter(User.user_id == user_id).first()
-    first_name = user.first_name
-    last_name = user.last_name
-    age = user.age 
-    country = user.country
 
     words = Word.query.all()
     lesson_one = random.choice(words)
 
-
-    return render_template("user_homepage.html", first_name=first_name,
-    last_name = last_name, age= age, user= user, country=country, 
-    lesson_one=lesson_one)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    return render_template("user_homepage.html", user=user, lesson_one=lesson_one)
 
 
 if __name__ == "__main__":
