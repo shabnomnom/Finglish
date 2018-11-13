@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
 
-    <h2>welcome back {{user.first_name}} {{user.last_name}}</h2>
+    <h2>welcome back {{user.first_name}} </h2>
     <div>
     country: {{country}}
         <br></br>
@@ -10,13 +10,12 @@
 
     <div>   
     <ul>
-        Lesson One
+        <h3>Today's words are : </h3>
          {% for word in lesson_one %}
-            <li> {{{word.farsi_word}}
+            <li> {{word.farsi_word}}
             <ul style="list-style-type:disc">
                 <li> Translation: {{word.english_word}}</li>
                 <li> Phenetic: {{word.farsi_phenetic}}</li>
-                <li><a> pronounciation</a>
 
 
             </ul>

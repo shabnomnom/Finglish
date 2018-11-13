@@ -39,7 +39,7 @@ def all_words():
 
     # if pronounciation_query = 
     # api_call.word_url(pronounciation_query)
-    api_call.word_url("سلام") 
+    # api_call.word_url("سلام") 
 
     return render_template ("/words_list.html", words=words )
 
@@ -100,8 +100,8 @@ def login_process():
     email_address = request.form.get('email')
     password= request.form.get('password')
 
-    app.logger.info(email_address)
-    app.logger.info(password)
+    # app.logger.info(email_address)
+    # app.logger.info(password)
 
 
     #check if the entered password match with the password form the existing 
@@ -141,8 +141,18 @@ def show_user_homepage(user_id):
     last_name = user.last_name
     country = user.country
 
-    lesson_one = db.session.query(Word).order_by(func.random()).limit(5)
-    
+
+    words = db.session.query(Word).all()
+    lesson_one = random.choices(words,k=10)
+
+    for word in lesson_one: 
+        user_vocab = Vocabulary(user_id=user_id, word_id=word.word_id)
+        db.session.add(user_vocab)
+        db.session.commit()
+    print("user vocab succesfully added")
+
+    vocab_list = db.session.query(Vocabulary).all()
+
 
 
 
