@@ -5,22 +5,25 @@
     <div>
     country: {{country}}
         <br></br>
-        Age:{{age}}
-        <br></br>
+     
     </div>
 
-
+    <div>   
     <ul>
         Lesson One
-         {% for word in word_one %}
+         {% for word in lesson_one %}
+            <li> {{{word.farsi_word}}
             <ul style="list-style-type:disc">
                 <li> Translation: {{word.english_word}}</li>
                 <li> Phenetic: {{word.farsi_phenetic}}</li>
+                <li><a> pronounciation</a>
+
 
             </ul>
 
 
         {% endfor %}
+    </div>
 
 
     

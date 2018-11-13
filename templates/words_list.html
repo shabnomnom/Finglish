@@ -6,15 +6,21 @@
 <ul>
     {% for word in words %}
 
-        <li href = "/words/{{word.word_id}}" >{{word.farsi_word}}
+        <li >{{word.farsi_word}}
             <ul style="list-style-type:circle">
                 <li> Translation: {{word.english_word}}</li>
                 <li> Phenetic: {{word.farsi_phenetic}}</li>
 
-                <li>   
-                <a href="/words/{{word.word_id}}" onclick="document.getElementById('pronounciation').submit();
-                return false;">pronounciation</a>
-                </form>
+                <!-- <from action="/pronounciation/{{word.word_id}}" method='POST'> -->
+
+                <li>
+                    <audio controls="">
+                    <source src= "{{ audio_file }}" type="audio/mpeg">
+ <!-- Your browser does not support the audio element. -->
+                    </audio>
+
+
+
 
             </ul>
                                 
