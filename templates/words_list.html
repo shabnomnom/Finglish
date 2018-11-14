@@ -11,11 +11,24 @@
                 <li> Translation: {{word.english_word}}</li>
                 <li> Phenetic: {{word.farsi_phenetic}}</li>
 
+   <!--  var url = 'http://apifree.forvo.com/key/XXXXXXXXXXXXXXXX/format/json/callback/pronounce/action/standard-pronunciation/word/'+encodeURI(word)+'/language/zh';
+    $.ajax({
+        url: url,
+        jsonpCallback: "pronounce",
+        dataType: "jsonp",
+        type: "jsonp",
+        success: function (json) {
+       var mp3 = json.items[0].pathmp3;
+       var ogg = json.items[0].pathogg;
+   },
+    error: function(){
+        console.log("error");
+}}); -->
                 <!-- <from action="/pronounciation/{{word.word_id}}" method='POST'> -->
 
                 <li>
                     <audio controls="">
-                    <source src="" type="audio/mpeg">
+                    <source src="{{pronounciation_dict[word.farsi_word]}}">
  <!-- Your browser does not support the audio element. -->
                     </audio>
 

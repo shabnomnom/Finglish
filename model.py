@@ -32,6 +32,11 @@ class User(db.Model):
         return "<User user_id={} email={}>".format(self.user_id, self.email)
 
 
+# class Wcategory(db.Model):
+#     """word categories """
+#     """to be added """
+
+
 class Word(db.Model):
     """word info """
 

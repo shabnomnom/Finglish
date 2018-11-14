@@ -17,4 +17,11 @@
 <h2>Log In </h2>
 <p><a href="/log_in">Log In </a></p>
 
+{% if session %}
+    <h2>Homepage </h2>
+    <p><a href="/users/{{user_id}}"> homepage </a></p>
+
+{% endif %}
+
+
 {% endblock %}

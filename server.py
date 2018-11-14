@@ -27,21 +27,27 @@ app.secret_key = "ABC"
 @app.route('/')
 def index():
     """homepage"""
+    # if the user is logged in , show their homepage 
+    if session:
+        user_id = session['current_user_id']
 
-    return render_template('homepage.html')
+    return render_template('homepage.html', user_id=user_id)
 
 @app.route('/words')
 def all_words():
     """view all users """
-    words = Word.query.all()
+    words = Word.query.limit(5)
+    pronounciation_dict = {}
 
-    # pronounciation_query = db.session.query(Word.farsi_word).one()
+    for word in words: 
+        if api_call.word_url(word.farsi_word) != None:
+            pronounciation_dict[word.farsi_word] = api_call.word_url(word.farsi_word)
+        else:
+            flash("pronounciation for this word is not available")
+    
 
-    # if pronounciation_query = 
-    # api_call.word_url(pronounciation_query)
-    # api_call.word_url("سلام") 
-
-    return render_template ("/words_list.html", words=words )
+    return render_template ("/words_list.html", words=words,
+    pronounciation_dict=pronounciation_dict )
 
 
 
@@ -126,10 +132,25 @@ def login_process():
 
 @app.route('/log_out', methods=["POST"])
 def logout_process():
+
     if session:
         session.clear()
         flash("you are logged out")
     return redirect("/")
+
+def lesson_generator(user_id):
+    words = db.session.query(Word).all()
+    lesson_one = random.choices(words,k=10)
+
+    #create an emtpy list outside of the for loop and append the vocabs as you
+    # as you commit to the vocabyoulary list 
+    vocab_list = [] 
+
+    for word in lesson_one: 
+        user_vocab = Vocabulary(user_id=user_id, word_id=word.word_id)
+        vocab_list.append(user_vocab)
+        db.session.add(user_vocab)
+        db.session.commit()
 
 
 @app.route("/users/<user_id>")
@@ -141,25 +162,32 @@ def show_user_homepage(user_id):
     last_name = user.last_name
     country = user.country
 
+    #lesson_generator(user_id)
+
 
     words = db.session.query(Word).all()
     lesson_one = random.choices(words,k=10)
 
+    #create an emtpy list outside of the for loop and append the vocabs as you
+    # as you commit to the vocabyoulary list 
+    vocab_list = [] 
+
     for word in lesson_one: 
         user_vocab = Vocabulary(user_id=user_id, word_id=word.word_id)
+        vocab_list.append(user_vocab)
         db.session.add(user_vocab)
         db.session.commit()
     print("user vocab succesfully added")
+    # user_vocab.word.farsi_word
 
-    vocab_list = db.session.query(Vocabulary).all()
+    
 
 
 
 
     return render_template("user_homepage.html", first_name=first_name,
     last_name = last_name, user= user, country=country, 
-    lesson_one=lesson_one)
-
+    lesson_one=lesson_one, vocab_list=vocab_list)
 
 
 
