@@ -65,7 +65,7 @@ class Vocabulary(db.Model):
     vocab_id = db.Column(db.Integer, autoincrement= True, primary_key =True)
     user_id = db.Column(db.Integer,db.ForeignKey('users.user_id'))
     word_id = db.Column(db.Integer,db.ForeignKey('words.word_id'))
-    # lesson_num = db.Column(db.Integer, nullable=False)
+    lesson_num = db.Column(db.Integer, nullable=False)
 
     user = db.relationship('User', backref=db.backref('vocabs'), order_by=vocab_id)
 

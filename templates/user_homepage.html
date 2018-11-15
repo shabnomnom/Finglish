@@ -8,8 +8,11 @@
      
     </div>
 
-    <div>   
-        <button type="lesson">Lesson One</button>
+  
+    <li>    
+        <a  href = "/users/{{user.user_id}}/{{lesson_num}}" >{{user.user_id}}lesson{{lesson_num}}
+            </a>
+    </li>
         <br></br>
         <button type="lesson">Lesson Two </button>
         <br></br>
@@ -18,10 +21,10 @@
         <button type="lesson">Lesson Four</button>
         <br></br>
         <button type="lesson">Lesson Five </button>
-
+    </form>
     <ul>
 
-        <h3>Lesson 1 </h3>
+        <!-- <h3>Lesson 1 </h3>
         <h3>Today's words are : </h3>
          {% for vocab_word in vocab_list %}
             <li> {{vocab_word.word.farsi_word}}
@@ -33,7 +36,7 @@
             </ul>
 
 
-        {% endfor %}
+        {% endfor %} -->
     </div>
 
 

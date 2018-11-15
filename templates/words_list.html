@@ -10,36 +10,24 @@
             <ul style="list-style-type:circle">
                 <li> Translation: {{word.english_word}}</li>
                 <li> Phenetic: {{word.farsi_phenetic}}</li>
-
-   <!--  var url = 'http://apifree.forvo.com/key/XXXXXXXXXXXXXXXX/format/json/callback/pronounce/action/standard-pronunciation/word/'+encodeURI(word)+'/language/zh';
-    $.ajax({
-        url: url,
-        jsonpCallback: "pronounce",
-        dataType: "jsonp",
-        type: "jsonp",
-        success: function (json) {
-       var mp3 = json.items[0].pathmp3;
-       var ogg = json.items[0].pathogg;
-   },
-    error: function(){
-        console.log("error");
-}}); -->
-                <!-- <from action="/pronounciation/{{word.word_id}}" method='POST'> -->
-
+                <li><!-- <button type="lesson">Lesson Three</button> --></li>
                 <li>
-                    <audio controls="">
-                    <source src="{{pronounciation_dict[word.farsi_word]}}">
- <!-- Your browser does not support the audio element. -->
+                    <script>$('#audio').on ("click", getAudio);
+                </script></
+
+
+                </li>
+                    <!-- <audio controls="">
+                    <source src="{{}}">
+ Your browser does not support the audio element.
                     </audio>
-
-
-
-
+ -->
             </ul>
                                 
                                         
 
 
     {% endfor %}
+<script type="js-functions.js"></script>
 
 {% endblock %}

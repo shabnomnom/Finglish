@@ -14,8 +14,6 @@ forvo_key = os.environ["forvo_key"]  # os saves the token from the secrets.sh to
                                                    # Run the source secrets.sh in the terminal before using.
 
 
-
-
 def word_url(farsi_word):
 
     key = forvo_key
