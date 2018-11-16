@@ -40,7 +40,7 @@ $('#test').on("click", ()=>alert("hello"));
 
 // You have to get the word from where you placed in the HTML. For example, suppose the word is on 
 // an element with an id named 'word'
-var farsi_word = document.getElementById('word').value
+var farsi_word = document.getElementById('word')
 
 function getPronouciation(){
     $.get(`/pronouciation/${farsi_word}`,
