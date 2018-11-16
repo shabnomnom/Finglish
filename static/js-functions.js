@@ -45,18 +45,18 @@ var farsi_word = document.getElementById('word')
 function getPronouciation(){
     $.get(`/pronouciation/${farsi_word}`,
 
-    (results) => { 
-        var elm = farsi_word;
-        var audio = document.getElementById('audio');
+        (results) => { 
+            var elm = farsi_word;
+            var audio = document.getElementById('audio');
 
-        var source = document.getElementById('audioSource');
-        source.src = elm.getAttribute('results');
+            var source = document.getElementById('audioSource');
+            source.src = elm.getAttribute('results');
 
-  audio.load(); //call this to just preload the audio without playing
-  audio.play(); //call this to play the song right away
-});
+      audio.load(); //call this to just preload the audio without playing
+      audio.play(); //call this to play the song right away
+    });
 
-
+}
 
 
 
