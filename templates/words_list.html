@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
 {% block content %}
+<script src="http://code.jquery.com/jquery.js"></script>
 
-<h1>View all words </h1>
-
+<h1>View words aaaaaaaah </h1>
 <ul>
     {% for word in words %}
 
@@ -10,24 +10,25 @@
             <ul style="list-style-type:circle">
                 <li> Translation: {{word.english_word}}</li>
                 <li> Phenetic: {{word.farsi_phenetic}}</li>
-                <li><!-- <button type="lesson">Lesson Three</button> --></li>
                 <li>
-                    <script>$('#audio').on ("click", getAudio);
-                </script></
-
-
-                </li>
-                    <!-- <audio controls="">
-                    <source src="{{}}">
- Your browser does not support the audio element.
+                    <audio id= "audio" controls="controls">
+                            <source id = "audioSrc" src="" >
+                                </source>
                     </audio>
- -->
+                <li> 
+                
             </ul>
-                                
-                                        
 
-
+        </li>
     {% endfor %}
-<script type="js-functions.js"></script>
+</ul>
+ 
+<button id="test">hello</button>
 
+
+
+</script> -->
+<script type="text/javascript" src="/static/js-functions.js"></script>
 {% endblock %}
+
+

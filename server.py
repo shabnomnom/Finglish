@@ -4,7 +4,7 @@
 from jinja2 import StrictUndefined
 from sqlalchemy import func
 
-from flask import (Flask, render_template, redirect, request, flash, session)
+from flask import (Flask, render_template, redirect, request, flash, session, jsonify)
 from flask_debugtoolbar import DebugToolbarExtension
 
 from model import User, Word, Vocabulary, connect_to_db, db
@@ -28,7 +28,10 @@ app.secret_key = "ABC"
 def index():
     """homepage"""
     #if the user is logged in , show their homepage 
-    if session:
+    # session might have other stuff in it so it is safe to just check
+    #to see the user id in the session keys 
+
+    if 'current_user_id' in session.keys():
         user_id = session['current_user_id']
         return render_template('homepage.html', user_id=user_id)
     else:
@@ -50,8 +53,16 @@ def all_words():
     #         flash("pronounciation for this word is not available")
     
 
-    return render_template ("/words_list.html", words=words)
-    # pronounciation_dict=pronounciation_dict )
+    return render_template("words_list.html", words=words)
+    # ,pronounciation_dict=pronounciation_dict )
+
+@app.route('/pronouciation/<farsi_word>')
+def pronunciation(farsi_word):
+    # Do api_call(farsi_word)
+    # Return simple json of {'url': '{farvo_url}'}
+    json_payload = { 'url': api_call.word_url(farsi_word)}
+    return jsonify(json_payload)
+
 
 
 
@@ -137,9 +148,9 @@ def login_process():
 @app.route('/log_out', methods=["POST"])
 def logout_process():
     """ give the option of logging out if the user is logged in"""
-    if session:
+    if 'current_user_id' in session.keys():
         session.clear()
-        flash("you are logged out")
+    flash("you are logged out")
     return redirect("/")
 
 def lesson_generator(user_id):
