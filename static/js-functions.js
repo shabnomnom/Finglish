@@ -41,21 +41,27 @@ $('#test').on("click", ()=>alert("hello"));
 
 
 function getPronouciation(){
-    $.get('/pronouciation/<farsi_word>'
+    $.get(`/pronouciation/${this.id}`,
 
     (results) => { 
-        var elm = farsi_word;
-        var audio = document.getElementById('audio');
+        //console.log(results)
+        //console.log(results)
+        //console.log(this.id)
 
-        var source = document.getElementById('audioSource');
-        source.src = elm.getAttribute('results');
+        let word = document.getElementById(this.id)
+        console.log(word)
+
+        let audio = document.getElementById('audio');
+
+        let source = document.getElementById('audioSource');
+        source.src = word.getAttribute(results.url);
 
   audio.load(); //call this to just preload the audio without playing
   audio.play(); //call this to play the song right away
 });
 
 
-
+}
 
 
 

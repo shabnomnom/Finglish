@@ -58,6 +58,7 @@ def all_words():
 
 @app.route('/pronouciation/<farsi_word>')
 def pronunciation(farsi_word):
+    """getting the pronunciation for each word """
     # Do api_call(farsi_word)
     # Return simple json of {'url': '{farvo_url}'}
     json_payload = { 'url': api_call.word_url(farsi_word)}
