@@ -38,10 +38,12 @@ $('#test').on("click", ()=>alert("hello"));
 // #audio reffering to the id 
 // .class reffere to the class of elements wit the 
 
-
+// You have to get the word from where you placed in the HTML. For example, suppose the word is on 
+// an element with an id named 'word'
+var farsi_word = document.getElementById('word').value
 
 function getPronouciation(){
-    $.get('/pronouciation/<farsi_word>',
+    $.get(`/pronouciation/${farsi_word}`,
 
     (results) => { 
         var elm = farsi_word;
