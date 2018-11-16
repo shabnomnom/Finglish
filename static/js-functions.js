@@ -41,7 +41,7 @@ $('#test').on("click", ()=>alert("hello"));
 
 
 function getPronouciation(){
-    $.get('/pronouciation/<farsi_word>'
+    $.get('/pronouciation/<farsi_word>',
 
     (results) => { 
         var elm = farsi_word;
