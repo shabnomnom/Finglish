@@ -64,7 +64,7 @@ class Vocabulary(db.Model):
     user_id = db.Column(db.Integer,db.ForeignKey('users.id'))
 
     user = db.relationship('User', backref=db.backref('vocabs'))
-    words = db.relationship('Word', backref=db.backref('vocabs'))
+    words = db.relationship('Word', secondary='vocab_words', backref=db.backref('vocabs'))
 
     def __repr__(self):
         """Provide helpful representation when printed."""
