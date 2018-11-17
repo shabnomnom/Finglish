@@ -10,12 +10,15 @@
             <ul style="list-style-type:circle">
                 <li> Translation: {{word.english_word}}</li>
                 <li> Phenetic: {{word.farsi_phenetic}}</li>
-                <li>
-                    <audio id= {{word.farsi_word}} controls="controls">
-                            <source id = "audioSrc" src="" type="audio/mpeg" >
-                                </source>
-                    </audio>
+                
                 <li> 
+                        <audio id='{{word.farsi_word}}' controls="controls">
+                            <source id = "audio_src_{{word.farsi_word}}" src="" type="audio/mpeg" >
+                                </source>
+                        </audio>
+                    </span>
+                </li>
+
                 
             </ul>
 
@@ -32,3 +35,12 @@
 {% endblock %}
 
 
+
+<!-- <div id={{word.farsi_word}}">
+                        <img id="playButton" src="/img/play-button width="360" height="200"> 
+                    </div>
+
+
+
+
+ -->

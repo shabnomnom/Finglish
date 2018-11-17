@@ -45,30 +45,55 @@ function getPronouciation(){
 
     (results) => { 
         //console.log(results)
-        //console.log(results)
-        //console.log(this.id)
+        console.log(results);
+        console.log(this.id);
 
-        let word = document.getElementById(this.id)
-        console.log(word)
+        let audio = document.getElementById(this.id);
+        console.log("AUDIO");
+        console.log(audio);
 
-        let audio = document.getElementById('audio');
+        let source = document.getElementById("audio_src_" + this.id);
+        console.log("SOURCE");
+        console.log(source);
+        source.src = results.url;
 
-        let source = document.getElementById('audioSource');
-        source.src = word.getAttribute(results.url);
+        audio.load(); //call this to just preload the audio without playing
+  
+        var playPromise = audio.play(); //call this to play the song right away
 
-  audio.load(); //call this to just preload the audio without playing
-  audio.play(); //call this to play the song right away
-});
+        if (playPromise !== undefined) {
 
+            playPromise.then(_ => {
 
-}
+                console.log("Playback is starting");
 
+            })
 
+            .catch(error => {
+
+                console.log("Derp. There was an error in loading the audio")
+        
+            });
+  
+        }
+    }
+
+)};
 
 $("audio").on("click", getPronouciation);
 
+// $('#playButton').on('click', (evt) => {
+//     evt.preventDefault();
 
+//     word = this.id
 
+//     $.get(`/pronouciation/${}`,
+//         (mp3Url) => {
+//             let song = new Audio(mp3Url);
+//             song.play();
+//         }
+//     )
+// });
 
 
 

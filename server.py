@@ -66,7 +66,6 @@ def pronunciation(farsi_word):
 
 
 
-
 @app.route('/users')
 def all_users():
     """view all users """
