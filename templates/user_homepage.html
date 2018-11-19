@@ -3,46 +3,21 @@
 
     <h2>welcome back {{user.first_name}} </h2>
     <div>
+    <h3> User Info: <h3>
     country: {{country}}
-        <br></br>
      
     </div>
-
   
-    <li>    
-        <a  href = "/users/{{user.user_id}}/{{lesson_num}}" >{{user.user_id}}lesson {{lesson_num}}
-        </a>
-    </li>
-        <br></br>
-        <a  href = "/users/{{user.user_id}}/{{lesson_num}}" >{{user.user_id}}lesson {{lesson_num}}
-        </a>
-        <br></br>
-        <a  href = "/users/{{user.user_id}}/{{lesson_num}}" >{{user.user_id}}lesson {{lesson_num}}
-        </a>
-        <br></br>
-        <a  href = "/users/{{user.user_id}}/{{lesson_num}}" >{{user.user_id}}lesson {{lesson_num}}
-        </a>
-        <br></br>
-        <a  href = "/users/{{user.user_id}}/{{lesson_num}}" >{{user.user_id}}lesson {{lesson_num}}
-        </a>
-    <ul>
-
-        <!-- <h3>Lesson 1 </h3>
-        <h3>Today's words are : </h3>
-         {% for vocab_word in vocab_list %}
-            <li> {{vocab_word.word.farsi_word}}
-            <ul style="list-style-type:disc">
-                <li> Translation: {{vocab_word.word.english_word}}</li>
-                <li> Phenetic: {{vocab_word.word.farsi_phenetic}}</li>
+        {% for lesson in range(1,6) %}
+        <li>
+            <a  href = "/users/{{user.user_id}}/{{lesson}}" >lesson: {{lesson}}
+            </a>
+        </li>
 
 
-            </ul>
 
-
-        {% endfor %} -->
+        {% endfor %}
     </div>
 
-
-    
 
 {% endblock %}

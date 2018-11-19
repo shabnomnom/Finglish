@@ -6,18 +6,17 @@
         <br></br>
         <ul>
     <h3>Today's words are : </h3>
-         {% for vocab_word in vocab_list %}
+         {% for vocab_word in lesson_vocabs %}
             <li> {{vocab_word.word.farsi_word}}
             <ul style="list-style-type:disc">
                 <li> Translation: {{vocab_word.word.english_word}}</li>
                 <li> Phenetic: {{vocab_word.word.farsi_phenetic}}</li>
-                <li>
-                    <audio controls="">
-                            <source src="{{}}">
- <!-- Your browser does not support the audio element. -->
-                    </audio>
                 <li> 
-
+                    <audio id='{{word.farsi_word}}' controls="controls">
+                        <source id = "audio_src_{{word.farsi_word}}" src="" type="audio/mpeg" >
+                        </source>
+                    </audio>
+                </li>
 
 
             </ul>
@@ -27,5 +26,5 @@
 
 
 
-
+<script type="text/javascript" src="/static/js-functions.js"></script>
 {% endblock %}
