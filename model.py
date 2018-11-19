@@ -13,28 +13,24 @@ db = SQLAlchemy()
 
 # Model functions
 
+
 class User(db.Model):
     """User of finglish website."""
 
     __tablename__ = "users"
 
-    user_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    first_name = db.Column(db.String(50), nullable=True)
-    last_name = db.Column(db.String(50), nullable=True)
-    email = db.Column(db.String(64), nullable=True)
-    password = db.Column(db.String(64), nullable=True)
+    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    first_name = db.Column(db.String(100), nullable=True)
+    last_name = db.Column(db.String(100), nullable=True)
+    email = db.Column(db.String, nullable=True)
+    password = db.Column(db.String, nullable=True)
     age = db.Column(db.Integer, nullable=True)
-    country = db.Column(db.String(15), nullable=True)
+    country = db.Column(db.String, nullable=True)
 
     def __repr__(self):
         """Provide helpful representation when printed."""
 
-        return "<User user_id={} email={}>".format(self.user_id, self.email)
-
-
-# class Wcategory(db.Model):
-#     """word categories """
-#     """to be added """
+        return "<User user={} email={}>".format(self.id, self.email)
 
 
 class Word(db.Model):
@@ -42,19 +38,24 @@ class Word(db.Model):
 
     __tablename__ = "words"
 
-    word_id = db.Column(db.Integer, autoincrement= True, primary_key =True)
-    english_word = db.Column(db.String(100), nullable=False)
-    farsi_phenetic= db.Column(db.String(100), nullable=False)
-    farsi_word = db.Column(db.String(100), nullable=False)
+    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    english = db.Column(db.String(100), nullable=False)
+    farsi_phonetic = db.Column(db.String(100), nullable=False)
+    farsi = db.Column(db.String(100), nullable=False)
     img_url = db.Column(db.String(500), nullable=True)
     ## picture to be determined 
 
     def __repr__(self):
         """Provide helpful representation when printed."""
 
-        return "<Word english_word={} farsi_word={}>".format(self.english_word,
-         self.farsi_word)
+        return "<Word english={} farsi={}>".format(self.english,
+                                                             self.farsi)
 
+
+vocab_words = db.Table('vocab_words',
+                       db.Column('word_id', db.Integer, db.ForeignKey('words.id')),
+                       db.Column('vocab_id', db.Integer, db.ForeignKey('vocabs.id'))
+                       )
 
 
 class Vocabulary(db.Model):
@@ -62,25 +63,18 @@ class Vocabulary(db.Model):
 
     __tablename__= "vocabs"
 
-    vocab_id = db.Column(db.Integer, autoincrement= True, primary_key =True)
-    user_id = db.Column(db.Integer,db.ForeignKey('users.user_id'))
-    word_id = db.Column(db.Integer,db.ForeignKey('words.word_id'))
+    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    user_id = db.Column(db.Integer,db.ForeignKey('users.id'))
     lesson_num = db.Column(db.Integer, nullable=False)
 
-    user = db.relationship('User', backref=db.backref('vocabs'), order_by=vocab_id)
-
-    word = db.relationship('Word', backref=db.backref('vocabs'), order_by=vocab_id)
+    user = db.relationship('User', backref=db.backref('vocabs'))
+    words = db.relationship('Word', secondary='vocab_words', backref=db.backref('vocabs'))
 
     def __repr__(self):
         """Provide helpful representation when printed."""
 
-        return "<Vocabs  vocab_id={} user_id={} word_id={}>".format(self.vocab_id,
-        self.user_id , self.word_id)
-
-
-
-   
-
+        return "<Vocabs  vocab_id={} word_id={}>".format(self.id,
+        self.word_id)
 
 
 ##############################################################################
@@ -102,4 +96,5 @@ if __name__ == "__main__":
 
     from server import app
     connect_to_db(app)
+    db.create_all()
     print("Connected to DB.")

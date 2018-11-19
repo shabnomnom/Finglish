@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <h2>Lesson {{lesson_num}} </h2>
+    <br></br>
+    <h3>Today's words are : </h3>
+    <ul>
+
+         {% for vocab_word in vocab_list %}
+            <li> {{vocab_word.farsi_word}}
+
+            <ul style="list-style-type:disc">
+                <li id="english"> Translation: {{vocab_word.english_word}}</li>
+                <li> Phonetic: {{vocab_word.farsi_phonetic}}</li>
+                <li>
+                    <img id="playButton" src="static/images/play.png" alt="play button image">
+                <li>
+            </ul>
+        {% endfor %}
+
+{% endblock %}
