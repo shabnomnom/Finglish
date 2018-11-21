@@ -26,7 +26,7 @@
 //     })
 // }
 
-$('#test').on("click", ()=>alert("hello"));
+//$('#test').on("click", ()=>alert("hello"));
 
 
 
@@ -95,9 +95,12 @@ $("audio").on("click", getPronouciation);
 //     )
 // });
 
-
-
-
+$('#next-lesson').on("click", function(){
+    //make a function that goes to next page
+    const userId = 30;
+    const lessonId = 3; 
+    location.href = `/users/${userId}/${lessonId}`; 
+});
 
 
 

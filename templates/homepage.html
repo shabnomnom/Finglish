@@ -14,8 +14,12 @@
 <p><a href="/registration">Register Here</a></p>
 
 <!-- add an if statement that desplay log in only if there is no session stored -->
-<h2>Log In </h2>
+
+{% if not session %}
+  <h2>Log In </h2>
 <p><a href="/log_in">Log In </a></p>
+  
+{% endif %}
 
 {% if session %}
     <h2>User Homepage </h2>

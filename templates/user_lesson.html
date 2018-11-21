@@ -1,30 +1,29 @@
 {% extends 'base.html' %}
+
 {% block content %}
+<script src="http://code.jquery.com/jquery.js"></script>
 
-    <h2>Lesson {{lesson_num}} </h2>
-    <div>
-        <br></br>
-        <ul>
-    <h3>Today's words are : </h3>
-         {% for vocab_word in lesson_vocabs %}
-            <li> {{vocab_word.word.farsi_word}}
-            <ul style="list-style-type:disc">
-                <li> Translation: {{vocab_word.word.english_word}}</li>
-                <li> Phenetic: {{vocab_word.word.farsi_phenetic}}</li>
-                <li> 
-                    <audio id='{{word.farsi_word}}' controls="controls">
-                        <source id = "audio_src_{{word.farsi_word}}" src="" type="audio/mpeg" >
-                        </source>
-                    </audio>
-                </li>
-
-
-            </ul>
-
-
-        {% endfor %}
-
-
+<div>
+  <h2>Lesson: {{lesson_num}} </h2>
+    <br></br>
+  <h3>Today's words are : </h3>
+  <ul>    
+    {% for word in lesson_vocabs %}
+      <li>{{word.word.farsi_word}}
+        <ul style="list-style-type:disc">
+          <li> Translation: {{word.word.english_word}}</li>
+          <li> Phonetic: {{word.word.farsi_phonetic}}</li>
+          <li> 
+            <audio id='{{word.word.farsi_word}}' controls="controls">
+              <source id = "audio_src_{{word.word.farsi_word}}" src="" type="audio/mpeg" />
+            </audio>
+          </li>
+        </ul>
+      </li>
+    {% endfor %}
+  </ul>
+  <button onClick="goToNext(/'' + user_id + / next_page + '/'))" id='next-lesson'>Next</button> 
+</div>
 
 <script type="text/javascript" src="/static/js-functions.js"></script>
 {% endblock %}

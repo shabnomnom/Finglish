@@ -2,7 +2,7 @@
 """Finglish Dictionary """
 
 from jinja2 import StrictUndefined
-from sqlalchemy import func
+from sqlalchemy import func, and_
 
 from flask import (Flask, render_template, redirect, request, flash, session, jsonify)
 from flask_debugtoolbar import DebugToolbarExtension
@@ -40,25 +40,30 @@ def index():
 
 @app.route('/words')
 def all_words():
-    """view all users """
-    words = Word.query.limit(5)
-    pronounciation_dict = {}
-
-    # return render_template("/words_list.html", words=words)
-
-    # for word in words: 
-    #     if api_call.word_url(word.farsi_word) != None:
-    #         pronounciation_dict[word.farsi_word] = api_call.word_url(word.farsi_word)
-    #     else:
-    #         flash("pronounciation for this word is not available")
+    """view all words """
     
+    return render_template("words_list.html")
 
-    return render_template("words_list.html", words=words)
-    # ,pronounciation_dict=pronounciation_dict )
+@app.route('/words', methods=["POST"])
+def search_word():
+    """search for a word """
+
+    english_word = request.form.get("english_word")
+    print("post word",english_word)
+
+    searched_word = db.session.query(Word).filter(Word.english_word == english_word).first() 
+    print("query word", searched_word) 
+
+
+
+    return render_template("words_list.html", searched_word=searched_word)
+
+
 
 @app.route('/pronouciation/<farsi_word>')
 def pronunciation(farsi_word):
     """getting the pronunciation for each word """
+
     # Do api_call(farsi_word)
     # Return simple json of {'url': '{farvo_url}'}
     json_payload = { 'url': api_call.word_url(farsi_word)}
@@ -94,6 +99,7 @@ def registeration_process():
     age = request.form.get('age')
     country = request.form.get('country')
 
+    # Can probably optimize this by querying by ID or email
     if db.session.query(User).filter(User.email == email).all():
         flash("This email has already been registered to an existing user, please log in.")
         return render_template("log_in.html")
@@ -111,12 +117,11 @@ def registeration_process():
     
         #generate 5 lessons for users when they log in 
         lesson_generator(new_user.user_id)
-        app.logger("lesson generator ran succesfully")
+        app.logger.info("lesson generator ran succesfully")
 
 
 
-        return redirect("/users/{}".format(new_user.user_id),
-        vocab_list=vocab_list)
+        return redirect("/users/{}".format(new_user.user_id))
 
 @app.route('/log_in')
 def view_login():
@@ -128,7 +133,7 @@ def login_process():
     """handeling login process"""
 
     email_address = request.form.get('email')
-    password= request.form.get('password')
+    password = request.form.get('password')
 
     # app.logger.info(email_address)
     # app.logger.info(password)
@@ -166,42 +171,46 @@ def lesson_generator(user_id):
     
     #take all the words for a user id  and then take those out of the words table 
     # before picking the 10 random word out of the those word 
-    for num in range(2,6):
-        user_existing_vocab = db.session.query(Vocabulary).filter(Vocabulary.user_id == user_id).all()
-        print("existing vocabs", user_existing_vocab)
+    for num in range(1,6):
+        # user_existing_vocab = db.session.query(Vocabulary).filter(Vocabulary.user_id == user_id).all()
+        # print("existing vocabs", user_existing_vocab)
 
         #create an emtpy list outside of the for loop and append the vocabs as you
         # as you commit to the vocabyoulary list 
-        if user_existing_vocab != []:
-            words = db.session.query(Word.word_id, Word.farsi_word,Word.english_word,
-            Word.farsi_phenetic).join(Vocabulary).filter(Word.word_id!=Vocabulary.word_id, Vocabulary.user_id== user_id).all()
-            lesson = random.choices(words, k=10) 
-            print("words", words)
+        # if user_existing_vocab != []:
+            # words = db.session.query(Word).filter(Word.word_id!=Vocabulary.word_id).all()
+        lesson = db.session.query(Word)\
+            .outerjoin(Vocabulary, and_(Word.word_id == Vocabulary.word_id, Vocabulary.user_id == user_id))\
+            .filter(Vocabulary.word_id == None).limit(10).all()
 
-            vocab_list = [] 
-            for word in lesson: 
-                user_vocab = Vocabulary(user_id=user_id, word_id=word.word_id,
-                lesson_num = num)
+        # words= db.session.query(Word).filter(Word.word_id!=Vocabulary.word_id).join(Vocabulary).filter(Vocabulary.user_id==user_id).all()
+        # db.session.query(Vocabulary).filter(Vocabulary.user_id==user_id).join(Word).filter(Word.word_id!=Vocabulary.word_id)
+        print("words", lesson)
+        
+        vocab_list = [] 
+        for word in lesson: 
+            user_vocab = Vocabulary(user_id=user_id, word_id=word.word_id,
+            lesson_num = num)
 
-                vocab_list.append(user_vocab)
-                db.session.add(user_vocab)
-                db.session.commit()
-            print("lesson 2-5 succesfully created ")
-            # Use the chain effect to have the words of the vocab like the following code : 
-            # user_vocab.word.farsi_word
+            vocab_list.append(user_vocab)
+            db.session.add(user_vocab)
+            db.session.commit()
+        print("lesson 2-5 succesfully created ")
+        # Use the chain effect to have the words of the vocab like the following code : 
+        # user_vocab.word.farsi_word
 
-        else: 
-            words= db.session.query(Word).all()
-            lesson = random.choices(words, k=10) 
-            vocab_list = [] 
-            for word in lesson: 
-                user_vocab = Vocabulary(user_id=user_id, word_id=word.word_id,
-                lesson_num = 1)
+        # else: 
+        #     words= db.session.query(Word).all()
+        #     lesson = random.choices(words, k=10) 
+        #     vocab_list = [] 
+        #     for word in lesson: 
+        #         user_vocab = Vocabulary(user_id=user_id, word_id=word.word_id,
+        #         lesson_num = 1)
 
-                vocab_list.append(user_vocab)
-                db.session.add(user_vocab)
-                db.session.commit()
-            print("lesson 1 succesfully created")
+        #         vocab_list.append(user_vocab)
+        #         db.session.add(user_vocab)
+        #         db.session.commit()
+        #     print("lesson 1 succesfully created")
 
 @app.route("/users/<user_id>")
 def show_user_homepage(user_id):
@@ -211,20 +220,26 @@ def show_user_homepage(user_id):
     first_name = user.first_name
     last_name = user.last_name
     country = user.country
+    user_id = user.user_id
 
     return render_template("user_homepage.html", first_name=first_name,
     last_name = last_name, user= user, country=country)
 
 
-app.route("/users/<user_id>/<lesson_num>")
-def show_lesson_vocabs(lesson_num):
+@app.route("/users/<user_id>/<lesson_num>")
+def show_lesson_vocabs(user_id,lesson_num):
     """show lesson vocabs """
-    user_id = session["current_user_id"]
-    
-    lesson_vocabs= db.session.query(Vocabulary).filter(User.user_id == user_id,
-        Vocabulary.lesson_num == lesson_num).all()
+    # user_id = session["current_user_id"]
+    # print (user_id)
 
-    return render_template("user_lesson.html", lesson_vocabs=lesson_vocabs)
+    lesson_vocabs= db.session.query(Vocabulary).filter(Vocabulary.user_id == user_id,
+        Vocabulary.lesson_num == lesson_num).all()
+    print(lesson_vocabs)
+
+    next_page = int(lesson_num) +1 
+
+    return render_template("user_lesson.html", lesson_vocabs=lesson_vocabs,
+     lesson_num = lesson_num, next_page=next_page, user_id=user_id)
 
 
 
