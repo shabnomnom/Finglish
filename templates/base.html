@@ -4,22 +4,22 @@
     <title> Learning Finglish </title>
 </head>
 <body>
-Finglish Dictionary 
+  Finglish Dictionary 
 <hr>
 
 <ul>
     {% for message in get_flashed_messages() %}
-    <li>{{ message }}</li>
+      <li>{{ message }}</li>
     {% endfor %}
 </ul>
 
 
 
 {% if session %}
-    <form action="/log_out" method='POST'>
-        <input type='submit' value='Log Out' name='log_out'>
+  <form action="/log_out" method='POST'>
+    <input type='submit' value='Log Out' name='log_out'>
     <br><br>
-    </form>
+  </form>
 {% endif %}
 
 

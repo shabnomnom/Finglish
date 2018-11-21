@@ -22,7 +22,12 @@
       </li>
     {% endfor %}
   </ul>
-  <button onClick="goToNext(/'' + user_id + / next_page + '/'))" id='next-lesson'>Next</button> 
+
+<form action= "{{next_page}}" >
+  <button type="submit" name="Next">Next
+  </button>
+</form>
+
 </div>
 
 <script type="text/javascript" src="/static/js-functions.js"></script>

@@ -2,26 +2,17 @@
 {% block content %}
 
 <div>
-    <h2>welcome back {{user.first_name}} </h2>
-    <div>
-    <h3> User Info: <h3>
-    country: {{country}}
-     
-    </div>
-    <h3> Lessons: <h3>
-  
-        {% for lesson in range(1,6) %}
-        <li>
-            <a  href = "/users/{{user.user_id}}/{{lesson}}" >lesson: {{lesson}}
-            </a>
-        </li>
-
-
-
-        {% endfor %}
-    </div>
+  <h2>welcome back {{user.first_name}} </h2>
+  <h3> User Info: <h3>
+  country: {{country}}    
+  </div>
+    <h3> Lessons: <h3> 
+      {% for lesson in range(1,6) %}
+      <li>
+        <a  href = "/users/{{user.user_id}}/{{lesson}}" >lesson: {{lesson}}
+        </a>
+      </li>
+      {% endfor %}
+  </div>
 </div>
-
-
-
 {% endblock %}
