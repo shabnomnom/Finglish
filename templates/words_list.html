@@ -5,18 +5,18 @@
 <h1>View words aaaaaaaah </h1>
 
 <form action="/words" method="POST">
-  Search for a word in English : <input type="text" name="english_word">
+  Search for a word in English : <input type="text" name="english">
   <br>
   <input type="submit" value="Submit">
 </form>
 
 {% if searched_word %}
-<li >{{searched_word.farsi_word}}
+<li >{{searched_word.farsi}}
             <ul style="list-style-type:circle">
-                <li> Phenetic: {{searched_word.farsi_phenetic}}</li> 
+                <li> Phonetic: {{searched_word.farsi_phonetic}}</li> 
                 <li> 
-                    <audio id='{{searched_word.farsi_word}}' controls="controls">
-                        <source id = "audio_src_{{searched_word.farsi_word}}" src="" type="audio/mpeg" >
+                    <audio id='{{searched_word.farsi}}' controls="controls">
+                        <source id = "audio_src_{{searched_word.farsi}}" src="" type="audio/mpeg" >
                         </source>
                     </audio>
                 </li>
@@ -32,14 +32,14 @@
 <ul>
     {% for word in words %}
 
-        <li >{{word.farsi_word}}
+        <li >{{word.farsi}}
             <ul style="list-style-type:circle">
-                <li> Translation: {{word.english_word}}</li>
-                <li> Phenetic: {{word.farsi_phenetic}}</li>
+                <li> Translation: {{word.english}}</li>
+                <li> Phonetic: {{word.farsi_phonetic}}</li>
                 
                 <li> 
-                    <audio id='{{word.farsi_word}}' controls="controls">
-                        <source id = "audio_src_{{word.farsi_word}}" src="" type="audio/mpeg" >
+                    <audio id='{{word.farsi}}' controls="controls">
+                        <source id = "audio_src_{{word.farsi}}" src="" type="audio/mpeg" >
                         </source>
                     </audio>
                 </li>

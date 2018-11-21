@@ -51,33 +51,13 @@ def load_words():
         for row in file:
             row= row.rstrip()
 
-            english_word, farsi_phenetic,farsi_word,_ = row.split(",")
+            english, farsi_phonetic,farsi,_ = row.split(",")
 
-            word = Word(english_word=english_word,
-            farsi_phenetic=farsi_phenetic,farsi_word=farsi_word)
-
+            word = Word(english= english.lower(),
+            farsi_phonetic=farsi_phonetic,farsi =farsi)
             db.session.add(word)
 
     db.session.commit()
-
-# def load_vocab_list():
-#     """loading vocab data to test the model """
-
-#     ## printing the table? 
-#     print("vocabs")
-     
-
-#     Vocabulary.query.delete()
-
-#     words = Word.query.all()
-#     users = User.query.all()
-
-#     vocab = Vocabulary(user_id=1, word_id=2)
-    
-#     db.session.add(vocab)
-
-#     db.session.commit()
-
 
 
 

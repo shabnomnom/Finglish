@@ -14,10 +14,10 @@ forvo_key = os.environ["forvo_key"]  # os saves the token from the secrets.sh to
                                                    # Run the source secrets.sh in the terminal before using.
 
 
-def word_url(farsi_word):
+def word_url(farsi):
 
     key = forvo_key
-    url="https://apifree.forvo.com/key/" + key + "/format/json/action/word-pronunciations/word/" + farsi_word + "/language/fa"
+    url="https://apifree.forvo.com/key/" + key + "/format/json/action/word-pronunciations/word/" + farsi + "/language/fa"
 
     # https://apifree.forvo.com/key/95a12f9924eaad8e79c2a57a985fe650/format/xml/action/word-pronunciations/word/cat/language/en
 
