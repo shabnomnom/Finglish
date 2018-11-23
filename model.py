@@ -32,11 +32,9 @@ class User(db.Model):
 
         return "<User user={} email={}>".format(self.id, self.email)
 
-
 # class Wcategory(db.Model):
 #     """word categories """
 #     """to be added """
-
 
 class Word(db.Model):
     """word info """
@@ -80,8 +78,7 @@ class Vocabulary(db.Model):
     def __repr__(self):
         """Provide helpful representation when printed."""
 
-        return "<Vocabs  vocab_id={} word_id={}>".format(self.id,
-        self.word_id)
+        return "<Vocabs  vocab_id={}>".format(self.id)
 
 ##############################################################################
 # Helper functions

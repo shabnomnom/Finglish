@@ -9,13 +9,13 @@
   <h3>Today's words are : </h3>
   <ul>    
     {% for word in lesson_vocabs %}
-      <li>{{word.word.farsi_word}}
+      <li>{{word.word.farsi}}
         <ul style="list-style-type:disc">
-          <li> Translation: {{word.word.english_word}}</li>
+          <li> Translation: {{word.word.english}}</li>
           <li> Phonetic: {{word.word.farsi_phonetic}}</li>
           <li> 
-            <audio id='{{word.word.farsi_word}}' controls="controls">
-              <source id = "audio_src_{{word.word.farsi_word}}" src="" type="audio/mpeg" />
+            <audio id='{{word.word.farsi}}' controls="controls">
+              <source id = "audio_src_{{word.word.farsi}}" src="" type="audio/mpeg" />
             </audio>
           </li>
         </ul>

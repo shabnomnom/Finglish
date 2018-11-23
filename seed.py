@@ -1,8 +1,7 @@
 """ Using this to seed the finglish_app form seed_data"""
 
-
 from sqlalchemy import func
-from model import Vocabulary, User , Word, connect_to_db, db 
+from model import Vocabulary, User, Word, connect_to_db, db 
 from server import app 
 import random
 from faker import Faker

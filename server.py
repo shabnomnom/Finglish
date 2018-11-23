@@ -30,7 +30,6 @@ def index():
     #if the user is logged in , show their homepage 
     # session might have other stuff in it so it is safe to just check
     #to see the user id in the session keys 
-
     if 'current_user_id' in session.keys():
         user_id = session['current_user_id']
         return render_template('homepage.html', user_id=user_id)
@@ -48,10 +47,10 @@ def all_words():
 def search_word():
     """search for a word """
 
-    english_word = request.form.get("english_word")
-    print("post word",english_word)
+    english = request.form.get("english")
+    print("post word",english)
 
-    searched_word = db.session.query(Word).filter(Word.english_word == english_word).first() 
+    searched_word = db.session.query(Word).filter(Word.english == english).first() 
     print("query word", searched_word) 
 
 
@@ -116,12 +115,9 @@ def registeration_process():
     
         #generate first lesson for users when they register 
         
-        lesson_generator(1,new_user.user_id)
+        # lesson_generator(1,new_user.user_id)
         app.logger.info("lesson generator ran succesfully")
-
-
-
-        return redirect("/users/{}".format(new_user.user_id))
+        return redirect("/users/{}".format(new_user.id))
 
 @app.route('/log_in')
 def view_login():
@@ -142,11 +138,11 @@ def login_process():
 
     if current_user.password == password:
         #putting a session on the user id to be able to log it out, while logged in 
-        session['current_user_id'] = current_user.user_id
+        session['current_user_id'] = current_user.id
         app.logger.info(str(session['current_user_id']))
 
         flash("welcome {} you are logged in".format(current_user.first_name))
-        return redirect (f'/users/{current_user.user_id}')
+        return redirect (f'/users/{current_user.id}')
     else: 
         flash ("invalid password, please try again")
         return redirect("/log_in")
@@ -165,7 +161,7 @@ def lesson_generator(lesson_num,user_id):
     #take all the words for a user id  and then take those out of the words table 
     
     lesson = db.session.query(Word)\
-        .outerjoin(Vocabulary, and_(Word.word_id == Vocabulary.word_id, Vocabulary.user_id == user_id))\
+        .outerjoin(Vocabulary, and_(Word.id == Vocabulary.word_id, Vocabulary.user_id == user_id))\
         .filter(Vocabulary.word_id == None).order_by(func.random()).limit(10).all()
         # words= db.session.query(Word).filter(Word.word_id!=Vocabulary.word_id).join(Vocabulary).filter(Vocabulary.user_id==user_id).all()
         # db.session.query(Vocabulary).filter(Vocabulary.user_id==user_id).join(Word).filter(Word.word_id!=Vocabulary.word_id)
@@ -173,7 +169,7 @@ def lesson_generator(lesson_num,user_id):
         
     vocab_list = [] 
     for word in lesson: 
-        user_vocab = Vocabulary(user_id=user_id, word_id=word.word_id,
+        user_vocab = Vocabulary(user_id=user_id, word_id=word.id,
         lesson_num = lesson_num)
 
         vocab_list.append(user_vocab)
@@ -186,24 +182,22 @@ def lesson_generator(lesson_num,user_id):
 def show_user_homepage(user_id):
     """show the user detail for the specific user id"""
 
-    user = db.session.query(User).filter(User.user_id == user_id).first()
+    user = db.session.query(User).filter(User.id == user_id).first()
     first_name = user.first_name
     last_name = user.last_name
     country = user.country
-    user_id = user.user_id
+    user_id = user.id
 
     return render_template("user_homepage.html", first_name=first_name,
     last_name = last_name, user= user, country=country)
-
 
 @app.route("/users/<user_id>/<lesson_num>")
 def show_lesson_vocabs(user_id,lesson_num):
     """show lesson vocabs """
     # user_id = session["current_user_id"]
     # print (user_id)
-
     lesson_vocabs= db.session.query(Vocabulary).filter(Vocabulary.user_id == user_id,
-        Vocabulary.lesson_num == lesson_num).all()
+        Vocabulary.lesson_num == 1).all()
     print(lesson_vocabs)
 
     next_page = int(lesson_num) +1 
