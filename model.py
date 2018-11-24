@@ -56,7 +56,7 @@ class Word(db.Model):
          self.farsi)
 
 
-
+# this should be UserWords because each row reperesent a user word 
 class Vocabulary(db.Model):
     """user vocabs """
 
