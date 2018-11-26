@@ -1,24 +1,29 @@
 {% extends 'base.html' %}
 {% block content %}
-
 <div>
-    <h2>welcome back {{user.first_name}} </h2>
-    <div>
+<h2>welcome back {{user.first_name}} </h2>
+  <div>
     <h3> User Info: <h3>
-    country: {{country}}
-     
-    </div>
+    country: {{country}}   
+  </div>
+  <div>
     <h3> Lessons: <h3>
-  
+      <ul>
         {% for lesson in range(1,6) %}
-        <li>
-            <a  href = "/users/{{user.id}}/{{lesson}}" >lesson: {{lesson}}
-            </a>
-        </li>
-
-
-
+          <li> lesson {{lesson}}
+            <ul style="list-style-type:disc">
+              <li>
+                <a  href = "/users/{{user.id}}/{{lesson}}" >  review words
+                </a>
+              </li>
+              <li>
+                <a  href = "/users/{{user.id}}/{{lesson}}" > take the quiz  
+                </a>
+              </li>
+            </ul>
+           </li>   
         {% endfor %}
+      </ul>
     </div>
 </div>
 

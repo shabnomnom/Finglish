@@ -110,12 +110,10 @@ def registeration_process():
 
         db.session.add(new_user)
         db.session.commit()
-
         app.logger.info(request.form)
-
         app.logger.info("about to generate lessons")
     
-        #generate 5 lessons for users when they log in 
+        #generate 5 lessons for users when they register 
         lesson_generator(new_user.id)
         app.logger.info("lesson generator ran succesfully")
 
@@ -174,7 +172,10 @@ def lesson_generator(user_id):
     for num in range(1,6):
         lesson = db.session.query(Word)\
             .outerjoin(Vocabulary, and_(Word.id == Vocabulary.word_id, Vocabulary.user_id == user_id))\
-            .filter(Vocabulary.word_id == None).order_by(func.random()).limit(10).all()
+            .filter(Vocabulary.word_id == None)\
+            .order_by(func.random())\
+            .limit(10)\
+            .all()
         print("words", lesson)
 
         #create an emtpy list outside of the for loop and append the vocabs as you
@@ -189,6 +190,27 @@ def lesson_generator(user_id):
             db.session.commit()
         print("lesson 1-5 succesfully created ")
 
+def lesson_generator_new(user_id, lesson_num):
+    # getting all the words, removing the words that the user already knows and getting 10 random ones
+    lesson = db.session.query(Word)\
+        .outerjoin(Vocabulary, and_(Word.id == Vocabulary.word_id, Vocabulary.user_id == user_id))\
+        .filter(Vocabulary.word_id == None)\
+        .order_by(func.random())\
+        .limit(10)\
+        .all()
+    
+    print("words", lesson)
+
+    #create an emtpy list outside of the for loop and append the vocabs as you
+    # as you commit to the vocabyoulary list 
+    vocab_list = [] 
+    for word in lesson: 
+        user_vocab = Vocabulary(user_id=user_id, word_id=word.id,
+        lesson_num = lesson_num)
+
+        vocab_list.append(user_vocab)
+        db.session.add(user_vocab)
+        db.session.commit()
 
 @app.route("/users/<user_id>")
 def show_user_homepage(user_id):
@@ -210,18 +232,67 @@ def show_lesson_vocabs(user_id,lesson_num):
     # user_id = session["current_user_id"]
     # print (user_id)
 
-    lesson_vocabs= db.session.query(Vocabulary).filter(Vocabulary.user_id == user_id,
-        Vocabulary.lesson_num == lesson_num).all()
-    print(lesson_vocabs)
+    lesson_vocabs_query= db.session\
+    .query(Vocabulary)\
+    .filter(Vocabulary.user_id == user_id,Vocabulary.lesson_num == lesson_num)\
+    .all()
 
     next_page = int(lesson_num) +1 
 
-    return render_template("user_lesson.html", lesson_vocabs=lesson_vocabs,
-     lesson_num = lesson_num, next_page=next_page, user_id=user_id)
+    return render_template("user_lesson.html",
+    lesson_vocabs_query= lesson_vocabs_query,
+    lesson_num = lesson_num,
+    user_id=user_id,next_page=next_page)
+
+# for each lesson have the 
+# create a class of cards that can be reused for each lesson 
+# each card front side containes the farsi word and pronounciation 
+# back the english meaning 
+# a next and back botton that moves between the cards 
+
+@app.route("/users/<user_id>/<lesson_num>/<word_id>")
+def one_word_per_page(user_id,lesson_num,word_id):
+    """show one word per page """
+    lesson_vocabs_query= db.session\
+    .query(Vocabulary)\
+    .filter(Vocabulary.user_id == user_id,Vocabulary.lesson_num == lesson_num)\
+    .all()
+
+    word_query = db.session.query(Word)\
+    .filter(Word.id==word_id)\
+    .first()
+
+    current_word_id = int(word_query.id)
+    print(current_word_id)
+
+    next_word = None
+    back_word = None
 
 
+    for i in range(len(lesson_vocabs_query)):
+        print("i",i)
+        print("query item",lesson_vocabs_query[i])
+        if i != (len(lesson_vocabs_query) - 1):
+            if int(lesson_vocabs_query[i].word_id) == current_word_id:
+                next_word = lesson_vocabs_query[i+1].word_id
+                print("derp {}".format(word_id))
+                
+        if i > 0:
+            back_word = lesson_vocabs_query[i-1].word_id
+            print("back_derp {}".format(back_word))
 
 
+    return render_template("flashcard.html",word_query=word_query,
+        lesson_vocabs_query=lesson_vocabs_query,
+        next_word=next_word, back_word=back_word)
+
+# @app.route("/users/<user_id>/<lesson_num>/<word_id>", methods=["POST"])
+# def create_quiz(word_id):
+#     """create quiz"""
+#     word_query = db.session.query(Word)\
+#     .filter(Word.id==word_id)\
+#     .first()
+#     english_answer = 
 
 
 

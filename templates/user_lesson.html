@@ -8,16 +8,19 @@
     <br></br>
   <h3>Today's words are : </h3>
   <ul>    
-    {% for word in lesson_vocabs %}
-      <li>{{word.word.farsi}}
+    {% for vocab in lesson_vocabs_query %}
+      <li>
+        <a href = "/users/{{user_id}}/{{lesson_num}}/{{vocab.word.id}}" >{{vocab.word.farsi}}
+        </a>
         <ul style="list-style-type:disc">
-          <li> Translation: {{word.word.english}}</li>
-          <li> Phonetic: {{word.word.farsi_phonetic}}</li>
+          <li> Translation: {{vocab.word.english}}</li>
+          <li> Phonetic: {{vocab.word.farsi_phonetic}}</li>
           <li> 
-            <audio id='{{word.word.farsi}}' controls="controls">
-              <source id = "audio_src_{{word.word.farsi}}" src="" type="audio/mpeg" />
+            <audio id='{{vocab.word.farsi}}' controls="controls">
+              <source id = "audio_src_{{vocab.word.farsi}}" src="" type="audio/mpeg" />
             </audio>
           </li>
+          
         </ul>
       </li>
     {% endfor %}
