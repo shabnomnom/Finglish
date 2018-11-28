@@ -10,7 +10,7 @@
   <ul>    
     {% for vocab in lesson_vocabs_query %}
       <li>
-        <a href = "/users/{{user_id}}/{{lesson_num}}/{{vocab.word.id}}" >{{vocab.word.farsi}}
+        <a href = "/users/{{user_id}}/{{lesson_num}}/{{vocab.word.id}}">{{vocab.word.farsi}}
         </a>
         <ul style="list-style-type:disc">
           <li> Translation: {{vocab.word.english}}</li>

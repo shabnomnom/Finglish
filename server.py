@@ -21,9 +21,6 @@ app.secret_key = "ABC"
 # silently. This is horrible. Fix this so that, instead, it raises an
 # error.
 # app.jinja_env.undefined = StrictUndefined
-
-
-
 @app.route('/')
 def index():
     """homepage"""
@@ -54,11 +51,7 @@ def search_word():
     searched_word = db.session.query(Word).filter(Word.english == english).first() 
     print("query word", searched_word) 
 
-
-
     return render_template("words_list.html", searched_word=searched_word)
-
-
 
 @app.route('/pronouciation/<farsi>')
 def pronunciation(farsi):
@@ -69,13 +62,10 @@ def pronunciation(farsi):
     json_payload = { 'url': api_call.word_url(farsi)}
     return jsonify(json_payload)
 
-
-
 @app.route('/users')
 def all_users():
     """view all users """
     users = User.query.all()
-
     return render_template("user_list.html", users=users )
 
 
@@ -115,9 +105,6 @@ def registeration_process():
     
         #generate 5 lessons for users when they register 
         lesson_generator(new_user.id)
-        app.logger.info("lesson generator ran succesfully")
-
-
 
         return redirect("/users/{}".format(new_user.id))
 
@@ -132,10 +119,6 @@ def login_process():
 
     email_address = request.form.get('email')
     password = request.form.get('password')
-
-    # app.logger.info(email_address)
-    # app.logger.info(password)
-
 
     #check if the entered password match with the password form the existing 
     #username 
@@ -226,7 +209,7 @@ def show_user_homepage(user_id):
     last_name = last_name, user= user, country=country)
 
 
-@app.route("/users/<user_id>/<lesson_num>")
+@app.route("/users/<user_id>/<int:lesson_num>")
 def show_lesson_vocabs(user_id,lesson_num):
     """show lesson vocabs """
     # user_id = session["current_user_id"]
@@ -237,22 +220,23 @@ def show_lesson_vocabs(user_id,lesson_num):
     .filter(Vocabulary.user_id == user_id,Vocabulary.lesson_num == lesson_num)\
     .all()
 
-    next_page = int(lesson_num) +1 
+    next_page = lesson_num+1 
+
+    #make a dic of answers where word_id are keys 
+    #empty the answer dic before making it again per lesson 
+    if 'answer_dict' in session:
+        session.pop('answer_dict')
+    session['answer_dict'] = {}
 
     return render_template("user_lesson.html",
     lesson_vocabs_query= lesson_vocabs_query,
     lesson_num = lesson_num,
     user_id=user_id,next_page=next_page)
+ 
+@app.route("/users/<user_id>/<lesson_num>/<word_id>", methods=["GET", "POST"])
+def validate_answers(user_id,lesson_num,word_id):
+    """validating answers and reporting a feedback """
 
-# for each lesson have the 
-# create a class of cards that can be reused for each lesson 
-# each card front side containes the farsi word and pronounciation 
-# back the english meaning 
-# a next and back botton that moves between the cards 
-
-@app.route("/users/<user_id>/<lesson_num>/<word_id>")
-def one_word_per_page(user_id,lesson_num,word_id):
-    """show one word per page """
     lesson_vocabs_query= db.session\
     .query(Vocabulary)\
     .filter(Vocabulary.user_id == user_id,Vocabulary.lesson_num == lesson_num)\
@@ -267,32 +251,65 @@ def one_word_per_page(user_id,lesson_num,word_id):
 
     next_word = None
     back_word = None
-
-
     for i in range(len(lesson_vocabs_query)):
-        print("i",i)
-        print("query item",lesson_vocabs_query[i])
+
+        # print("query item",lesson_vocabs_query[i])
         if i != (len(lesson_vocabs_query) - 1):
-            if int(lesson_vocabs_query[i].word_id) == current_word_id:
-                next_word = lesson_vocabs_query[i+1].word_id
-                print("derp {}".format(word_id))
-                
-        if i > 0:
+            if lesson_vocabs_query[i].word_id == current_word_id:
+                next_word = lesson_vocabs_query[i+1].word_id 
+            
+                answer = request.form.get("answer")
+
+                if answer == "correct":
+                    session['answer_dict'][word_id] = 1
+                    flash("correct answer is been saved") 
+                if answer == "incorrect":
+                    session['answer_dict'][word_id] = 0
+                    flash("incorrect answer is been saved")
+
+        if i> 0:
             back_word = lesson_vocabs_query[i-1].word_id
-            print("back_derp {}".format(back_word))
+
+        # create an dictunary of answers, where word ids are keys, 
+        # and answers are boolian 
+    if request.method == "GET": 
+            return render_template("flashcard.html",word_query=word_query,
+            lesson_vocabs_query=lesson_vocabs_query,user_id=user_id,
+            lesson_num=lesson_num,
+            word_id=word_id, next_word=next_word, back_word=back_word)        
+   
+    else:
+        return redirect(f"/users/{user_id}/{lesson_num}/{word_id}")
+
+@app.route("/users/<user_id>/<lesson_num>/<word_id>/result", methods=["Post"])
+def showlesson_result(user_id,lesson_num, word_id):
+    """show result of the flashcard"""
+    print("-----------------")
+
+    answer = request.form.get("answer")
+    if answer == "correct":
+        session['answer_dict'][word_id] = 1
+        flash("correct answer is been saved") 
+    if answer == "incorrect":
+        session['answer_dict'][word_id] = 0
+        flash("incorrect answer is been saved")
+
+    result_sum = sum(session['answer_dict'].values())
+    result_total = len(session['answer_dict'])
+    result = ((result_sum)/result_total)*100
+    
+    
+
+    return render_template("lesson_result.html", result=result, lesson_num=lesson_num)
 
 
-    return render_template("flashcard.html",word_query=word_query,
-        lesson_vocabs_query=lesson_vocabs_query,
-        next_word=next_word, back_word=back_word)
 
-# @app.route("/users/<user_id>/<lesson_num>/<word_id>", methods=["POST"])
-# def create_quiz(word_id):
-#     """create quiz"""
-#     word_query = db.session.query(Word)\
-#     .filter(Word.id==word_id)\
-#     .first()
-#     english_answer = 
+
+
+
+
+
+
 
 
 
