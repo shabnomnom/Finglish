@@ -28,6 +28,7 @@
     <input type="radio" name="answer" value="incorrect"/>
     I did not remember
     <br>
+    <input type="hidden" name= "previous_word_id" value={{word_id}}>
     <button type="submit">Next
   </button>
 </form>
@@ -41,6 +42,7 @@
     <input type="radio" name="answer" value="incorrect"/>
     I did not remember
     <br>
+    <input type="hidden" name= "previous_word_id" value={{word_id}}>
   <button type="submit">Submit
   </button>
 </form>
@@ -48,7 +50,7 @@
 
 
 {% if back_word is not none %}
-<form action="{{back_word}}" method="POST" >
+<form action="{{back_word}}" >
 <button type="submit">Back
 </button>
 

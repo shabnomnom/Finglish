@@ -2,7 +2,7 @@
 """Finglish Dictionary """
 
 from jinja2 import StrictUndefined
-from sqlalchemy import func, and_
+from sqlalchemy import func, and_, update
 
 from flask import (Flask, render_template, redirect, request, flash, session, jsonify)
 from flask_debugtoolbar import DebugToolbarExtension
@@ -246,8 +246,8 @@ def validate_answers(user_id,lesson_num,word_id):
     .filter(Word.id==word_id)\
     .first()
 
-    current_word_id = int(word_query.id)
-    print(current_word_id)
+    current_word_id = word_query.id
+    
 
     next_word = None
     back_word = None
@@ -259,25 +259,30 @@ def validate_answers(user_id,lesson_num,word_id):
                 next_word = lesson_vocabs_query[i+1].word_id 
             
                 answer = request.form.get("answer")
+                previous_word_id = request.form.get("previous_word_id")
+                print("____")
+                print("answer",answer)
+                print("word_id",word_id)
+                print("previous word id",previous_word_id)
 
                 if answer == "correct":
                     session['answer_dict'][word_id] = 1
-                    flash("correct answer is been saved") 
+                    flash("correct answer is been saved", current_word_id) 
                 if answer == "incorrect":
                     session['answer_dict'][word_id] = 0
-                    flash("incorrect answer is been saved")
+                    flash("incorrect answer is been saved",current_word_id)
 
         if i> 0:
             back_word = lesson_vocabs_query[i-1].word_id
-            print("-----------")
-            print(back_word)
+            # print("-----------")
+            # print(back_word)
 
 
         # create an dictunary of answers, where word ids are keys, 
         # and answers are boolian 
     if request.method == "GET": 
-        print("get request")
-        print(back_word)
+        # print("get request")
+        # print(back_word)
 
         return render_template("flashcard.html",word_query=word_query,
         lesson_vocabs_query=lesson_vocabs_query,user_id=user_id,
@@ -302,14 +307,36 @@ def showlesson_result(user_id,lesson_num, word_id):
 
     result_sum = sum(session['answer_dict'].values())
     result_total = len(session['answer_dict'])
-    result = ((result_sum)/10)*100
 
-    
-    
-
-    return render_template("lesson_result.html", result=result,
+    return render_template("lesson_result.html",
     lesson_num=lesson_num, user_id=user_id,result_sum=result_sum,
     result_total=result_total)
+
+# TODO: make this a POST ONLY
+#add click handeler  to the 
+@app.route("/update_seen_count/<user_id>/<word_id>", methods=["POST", "GET"])
+def update_seen_count(user_id, word_id):
+    """update seen count per word"""
+    print('here')
+    seen_vocab = db.session\
+    .query(Vocabulary)\
+    .filter(Vocabulary.user_id == user_id,Vocabulary.word_id == word_id)\
+    .first()
+
+    print("____________")
+    print(seen_vocab.seen_count)
+    seen_vocab.seen_count += 1
+    # how do i update this?
+    db.session.commit()
+
+    return ""
+
+
+
+    
+
+
+
 
 
 

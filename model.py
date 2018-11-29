@@ -67,6 +67,8 @@ class Vocabulary(db.Model):
     user_id = db.Column(db.Integer,db.ForeignKey('users.id'))
     word_id = db.Column(db.Integer,db.ForeignKey('words.id'))
     lesson_num = db.Column(db.Integer, nullable=False)
+    correct_count = db.Column(db.Integer, default=0)
+    seen_count = db.Column(db.Integer, default=0)
 
     user = db.relationship('User', backref=db.backref('vocabs'))
 
@@ -80,10 +82,10 @@ class Vocabulary(db.Model):
     #add this with the new branch to get the weight and 
     #the repetation of the words correct 
     
-    # @property
-    # def weight(self):
-    #     word = UserWords.query.filter(word_id=self.id)
-    #     return word.correct / word.seen
+    @property
+    def weight(self):
+        vocab = Vocabulary.query.filter(vocab_id=self.id)
+        return vocab.correct_count / vocab.seen_count
 
 
    
