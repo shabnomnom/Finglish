@@ -1,9 +1,13 @@
 {% extends 'base.html' %}
 {% block content %}
 <script src="http://code.jquery.com/jquery.js"></script>
-
-
 <div>
+
+  <form action="/users/{{user_id}}" method='GET'>
+        <input type='submit' value='Homepage' name="Homepage">
+    <br><br>
+  </form>
+
   {{word_query.farsi}}
     <ul style="list-style-type:circle">
       Translation: {{word_query.english}}<br>
@@ -44,7 +48,7 @@
 
 
 {% if back_word is not none %}
-<form action="{{back_word}}" >
+<form action="{{back_word}}" method="POST" >
 <button type="submit">Back
 </button>
 

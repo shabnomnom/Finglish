@@ -56,6 +56,7 @@ class Word(db.Model):
          self.farsi)
 
 
+
 # this should be UserWords because each row reperesent a user word 
 class Vocabulary(db.Model):
     """user vocabs """
@@ -76,7 +77,13 @@ class Vocabulary(db.Model):
 
         return "<Vocabs  vocab_id={} user_id={} word_id={}>".format(self.vocab_id,
         self.user_id , self.word_id)
-
+    #add this with the new branch to get the weight and 
+    #the repetation of the words correct 
+    
+    # @property
+    # def weight(self):
+    #     word = UserWords.query.filter(word_id=self.id)
+    #     return word.correct / word.seen
 
 
    

@@ -1,2 +1,4 @@
 env
 secret.sh
+.DS_Store
+__pycache__/

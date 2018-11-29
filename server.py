@@ -269,15 +269,21 @@ def validate_answers(user_id,lesson_num,word_id):
 
         if i> 0:
             back_word = lesson_vocabs_query[i-1].word_id
+            print("-----------")
+            print(back_word)
+
 
         # create an dictunary of answers, where word ids are keys, 
         # and answers are boolian 
     if request.method == "GET": 
-            return render_template("flashcard.html",word_query=word_query,
-            lesson_vocabs_query=lesson_vocabs_query,user_id=user_id,
-            lesson_num=lesson_num,
-            word_id=word_id, next_word=next_word, back_word=back_word)        
-   
+        print("get request")
+        print(back_word)
+
+        return render_template("flashcard.html",word_query=word_query,
+        lesson_vocabs_query=lesson_vocabs_query,user_id=user_id,
+        lesson_num=lesson_num,
+        word_id=word_id, next_word=next_word, back_word=back_word)        
+
     else:
         return redirect(f"/users/{user_id}/{lesson_num}/{word_id}")
 
@@ -296,11 +302,16 @@ def showlesson_result(user_id,lesson_num, word_id):
 
     result_sum = sum(session['answer_dict'].values())
     result_total = len(session['answer_dict'])
-    result = ((result_sum)/result_total)*100
+    result = ((result_sum)/10)*100
+
     
     
 
-    return render_template("lesson_result.html", result=result, lesson_num=lesson_num)
+    return render_template("lesson_result.html", result=result,
+    lesson_num=lesson_num, user_id=user_id,result_sum=result_sum,
+    result_total=result_total)
+
+
 
 
 
