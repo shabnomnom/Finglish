@@ -222,10 +222,6 @@ def show_lesson_vocabs(user_id,lesson_num):
 
     next_page = lesson_num+1 
 
-    #make a dic of answers where word_id are keys 
-    #empty the answer dic before making it again per lesson 
-    if 'answer_dict' in session:
-        session.pop('answer_dict')
     session['answer_dict'] = {}
 
     return render_template("user_lesson.html",
@@ -248,7 +244,6 @@ def validate_answers(user_id,lesson_num,word_id):
 
     current_word_id = word_query.id
     
-
     next_word = None
     back_word = None
     for i in range(len(lesson_vocabs_query)):
@@ -265,17 +260,17 @@ def validate_answers(user_id,lesson_num,word_id):
                 print("word_id",word_id)
                 print("previous word id",previous_word_id)
 
-                if answer == "correct":
-                    session['answer_dict'][word_id] = 1
-                    flash("correct answer is been saved", current_word_id) 
-                if answer == "incorrect":
-                    session['answer_dict'][word_id] = 0
+                if answer == "correct" and previous_word_id:
+                    session['answer_dict'][previous_word_id] = 1
+                    flash(f"correct answer is been saved {previous_word_id}") 
+                if answer == "incorrect" and previous_word_id:
+                    session['answer_dict'][previous_word_id] = 0
                     flash("incorrect answer is been saved",current_word_id)
 
-        if i> 0:
-            back_word = lesson_vocabs_query[i-1].word_id
-            # print("-----------")
-            # print(back_word)
+            if i> 0:
+                back_word = lesson_vocabs_query[i-1].word_id
+                # print("-----------")
+                # print(back_word)
 
 
         # create an dictunary of answers, where word ids are keys, 
@@ -298,15 +293,32 @@ def showlesson_result(user_id,lesson_num, word_id):
     print("-----------------")
 
     answer = request.form.get("answer")
-    if answer == "correct":
-        session['answer_dict'][word_id] = 1
+    previous_word_id = request.form.get("previous_word_id")
+
+    if answer == "correct" and previous_word_id:
+        session['answer_dict'][previous_word_id] = 1
         flash("correct answer is been saved") 
-    if answer == "incorrect":
-        session['answer_dict'][word_id] = 0
+    if answer == "incorrect" and previous_word_id:
+        session['answer_dict'][previous_word_id] = 0
         flash("incorrect answer is been saved")
 
     result_sum = sum(session['answer_dict'].values())
     result_total = len(session['answer_dict'])
+
+    #make a dic of answers where word_id are keys 
+    #empty the answer dic before making it again per lesson 
+
+    if 'answer_dict' in session:
+        for word_id in session['answer_dict']:
+            if session['answer_dict'][word_id]== 1:
+                correct_vocab = db.session\
+                .query(Vocabulary)\
+                .filter(and_(Vocabulary.user_id == user_id, Vocabulary.word_id == word_id))\
+                .first()
+                correct_vocab.correct_count += 1
+        db.session.commit()
+
+        session.pop('answer_dict')
 
     return render_template("lesson_result.html",
     lesson_num=lesson_num, user_id=user_id,result_sum=result_sum,
@@ -314,13 +326,15 @@ def showlesson_result(user_id,lesson_num, word_id):
 
 # TODO: make this a POST ONLY
 #add click handeler  to the 
-@app.route("/update_seen_count/<user_id>/<word_id>", methods=["POST", "GET"])
-def update_seen_count(user_id, word_id):
+@app.route("/update_seen_count/<word_id>", methods=["POST", "GET"])
+def update_seen_count(word_id):
     """update seen count per word"""
-    print('here')
+    user_id = session['current_user_id']
+    print('here: user_id={}, word_id={}'.format(user_id, word_id))
+    
     seen_vocab = db.session\
     .query(Vocabulary)\
-    .filter(Vocabulary.user_id == user_id,Vocabulary.word_id == word_id)\
+    .filter(and_(Vocabulary.user_id == user_id, Vocabulary.word_id == word_id))\
     .first()
 
     print("____________")

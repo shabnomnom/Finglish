@@ -74,10 +74,8 @@ function getPronouciation(){
                 console.log("Derp. There was an error in loading the audio")
         
             });
-  
         }
     }
-
 )};
 
 $("audio").on("click", getPronouciation);
@@ -95,12 +93,15 @@ $("audio").on("click", getPronouciation);
 //     )
 // });
 
-
-
-
-
-
-
+$("#word").click(function(){
+    console.log("I've been clicked!");
+    let wordId = this.getAttribute("data-word-id");
+    console.log(this.getAttribute("data-word-id"));
+    $.ajax({url: "/update_seen_count/" + wordId,
+        success: function(result){
+        $("#div1").html(result);
+    }});
+});
 
 
 
