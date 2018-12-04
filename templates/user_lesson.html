@@ -5,20 +5,23 @@
 
 <div>
 
+<form action="/users/{{user_id}}/lesson/{{lesson_num}}/flashcards/{{word_id}}" method='GET'>
+      <input type='submit' value='flashcards' name="flashcards">
+  <br>
+</form>
+  <br>
+  <form action="/users/{{user_id}}/lesson/{{lesson_num}}/quiz/{{word_id}}"
+    method='GET'>
+    <input type='submit' value='quiz' name="quiz">
+  <br>
+</form>
 <br>
-  <form action="/users/{{user_id}}" method='GET'>
-        <input type='submit' value='Homepage' name="Homepage">
-    <br><br>
-  </form>
-<br>
-
-  <h2>Lesson: {{lesson_num}} </h2>
-    <br></br>
+  <h2>Lesson: {{lesson_num}} Overview </h2>
   <h3>Today's words are : </h3>
   <ul>    
     {% for vocab in lesson_vocabs_query %}
       <li>
-        <a href = "/users/{{user_id}}/{{lesson_num}}/{{vocab.word.id}}">{{vocab.word.farsi}}
+        <a href = "/users/{{user_id}}/lesson/{{lesson_num}}/flashcards/{{vocab.word.id}}">{{vocab.word.farsi}}
         </a>
         <ul style="list-style-type:disc">
           <li> Translation: {{vocab.word.english}}</li>

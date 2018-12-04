@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block content %}
+<script src="http://code.jquery.com/jquery.js"></script>
+ <div>
+
+  {{word_query.farsi}}
+    <ul style="list-style-type:circle">
+      Translation: {{word_query.english}}<br>
+      Phonetic: {{word_query.farsi_phonetic}}<br> 
+      <audio id='{{word_query.farsi}}' controls="controls">
+        <source id = "audio_src_{{word_query.farsi}}" src="" type="audio/mpeg" >
+        </source>
+      </audio>
+    </ul>
+
+ {% if next_word is not none %}
+<form action="{{next_word}}" >
+  <button type="submit">Next
+  </button>
+{% endif %}
+
+{% if next_word is none %}
+<form action="/users/{{user_id}}" >
+  <button type="submit">Done
+  </button>
+</form>
+{% endif %}
+<br>
+{% if back_word is not none %}
+<form action="{{back_word}}" >
+  <button type="submit">Back
+  </button>
+ </form>
+{% endif %}
+ </div>
+ <script type="text/javascript" src="/static/js-functions.js"></script>
+{% endblock %}

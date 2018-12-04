@@ -2,24 +2,16 @@
 {% block content %}
 <script src="http://code.jquery.com/jquery.js"></script>
 
-<br>
-  <form action="/users/{{user_id}}" method='GET'>
-        <input type='submit' value='Homepage' name="Homepage">
-    <br><br>
-  </form>
-<br>
+
 
 <h2> Nice Work  <h2>
 <h3> You  just studied {{result_total}} words!<h3>
 <h3> You got {{result_sum}} words right!<h3>
 
 
-<div>
-
-
   <!-- Lesson {{lesson_num}}: .......................{{result}}% -->
   <br>
-  <a href = "/users/{{user_id}}/{{lesson_num}}"> TryAgain 
+  <a href = "/users/{{user_id}}/lesson/{{lesson_num}}/quiz/{{first_word.word_id}}"> TryAgain 
   </a>
   <br>
 

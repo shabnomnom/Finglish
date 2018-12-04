@@ -26,8 +26,6 @@ with open ('vocabs_#.csv', 'w') as csv:
         for td in row.find_all(['td','th']):
             line += td.text + ','
         #csv.write(line + '\n')
-        
-
 
 # ran tables[0] and table [1] to have all the tables save the data in
  

@@ -1,31 +1,25 @@
 {% extends 'base.html' %}
 {% block content %}
+<div>
+  <h1>Learning Finglish </h1>
 
-<h1>Learning Finglish </h1>
+  <h2>words</h2>
+  <p><a href="/words">View all words</a></p>
 
-<h2>words</h2>
-<p><a href="/words">View all words</a></p>
-
-<h2>users</h2>
-<p><a href="/users">View all users</a></p>
+  <h2>users</h2>
+  <p><a href="/users">View all users</a></p>
 
 
-<h2>New Users</h2>
-<p><a href="/registration">Register Here</a></p>
+  <h2>New Users</h2>
+  <p><a href="/registration">Register Here</a></p>
 
-<!-- add an if statement that desplay log in only if there is no session stored -->
+  <!-- add an if statement that desplay log in only if there is no session stored -->
 
-{% if not session %}
-  <h2>Log In </h2>
-<p><a href="/log_in">Log In </a></p>
+  {% if  not user_id %}
+    <h2>Log In </h2>
+    <p><a href="/log_in">Log In </a></p>
   
-{% endif %}
-
-{% if session %}
-    <h2>User Homepage </h2>
-    <p><a href="/users/{{user_id}}"> user homepage </a></p>
-
-{% endif %}
-
+  {% endif %}
+</div>
 
 {% endblock %}

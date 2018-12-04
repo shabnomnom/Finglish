@@ -27,7 +27,6 @@ def index():
     #if the user is logged in , show their homepage 
     # session might have other stuff in it so it is safe to just check
     #to see the user id in the session keys 
-
     if 'current_user_id' in session.keys():
         user_id = session['current_user_id']
         return render_template('homepage.html', user_id=user_id)
@@ -67,8 +66,6 @@ def all_users():
     """view all users """
     users = User.query.all()
     return render_template("user_list.html", users=users )
-
-
 # word.word_id is not defined and misleading syntax for python
 # change that with the word_id to create a new variable out of the number 
 #that route returns 
@@ -100,11 +97,9 @@ def registeration_process():
 
         db.session.add(new_user)
         db.session.commit()
-        app.logger.info(request.form)
-        app.logger.info("about to generate lessons")
-    
-        #generate 5 lessons for users when they register 
-        lesson_generator(new_user.id)
+
+        #generate 1 lesson for users when they register 
+        lesson_generator(new_user.id,1)
 
         return redirect("/users/{}".format(new_user.id))
 
@@ -147,69 +142,52 @@ def logout_process():
     flash("you are logged out")
     return redirect("/")
 
-def lesson_generator(user_id):
-    """generate 10 random words for each lesson """
+@app.route('/profile/<user_id>')
+def user_info(user_id):
+    """show user info"""
+    user = db.session.query(User).filter(User.id == user_id).first()
+    first_name = user.first_name
+    last_name = user.last_name
+    country = user.country
+    age = user.age 
+    return render_template("user_info.html", country=country, first_name= first_name,
+    last_name=last_name, age=age, user_id=user_id )
+
+def lesson_generator(user_id, lesson_num):
+    # getting all the words, removing the words that the user already knows and getting 10 random ones
     
-    #take all the words for a user id  and then take those out of the words table 
-    # before picking the 10 random word out of the those word 
-    for num in range(1,6):
         lesson = db.session.query(Word)\
             .outerjoin(Vocabulary, and_(Word.id == Vocabulary.word_id, Vocabulary.user_id == user_id))\
             .filter(Vocabulary.word_id == None)\
             .order_by(func.random())\
             .limit(10)\
             .all()
+        
         print("words", lesson)
-
         #create an emtpy list outside of the for loop and append the vocabs as you
         # as you commit to the vocabyoulary list 
         vocab_list = [] 
         for word in lesson: 
             user_vocab = Vocabulary(user_id=user_id, word_id=word.id,
-            lesson_num = num)
-
+            lesson_num = lesson_num)
             vocab_list.append(user_vocab)
             db.session.add(user_vocab)
             db.session.commit()
-        print("lesson 1-5 succesfully created ")
-
-def lesson_generator_new(user_id, lesson_num):
-    # getting all the words, removing the words that the user already knows and getting 10 random ones
-    lesson = db.session.query(Word)\
-        .outerjoin(Vocabulary, and_(Word.id == Vocabulary.word_id, Vocabulary.user_id == user_id))\
-        .filter(Vocabulary.word_id == None)\
-        .order_by(func.random())\
-        .limit(10)\
-        .all()
-    
-    print("words", lesson)
-
-    #create an emtpy list outside of the for loop and append the vocabs as you
-    # as you commit to the vocabyoulary list 
-    vocab_list = [] 
-    for word in lesson: 
-        user_vocab = Vocabulary(user_id=user_id, word_id=word.id,
-        lesson_num = lesson_num)
-
-        vocab_list.append(user_vocab)
-        db.session.add(user_vocab)
-        db.session.commit()
 
 @app.route("/users/<user_id>")
 def show_user_homepage(user_id):
     """show the user detail for the specific user id"""
 
     user = db.session.query(User).filter(User.id == user_id).first()
-    first_name = user.first_name
-    last_name = user.last_name
-    country = user.country
-    user_id = user.id
+    user_lesson_num_tuple = db.session\
+    .query(func.max(Vocabulary.lesson_num))\
+    .filter(Vocabulary.user_id == user_id)\
+    .first()
+    user_lesson_num = user_lesson_num_tuple[0]
+    return render_template("user_homepage.html", user= user,
+    user_lesson_num = user_lesson_num )
 
-    return render_template("user_homepage.html", first_name=first_name,
-    last_name = last_name, user= user, country=country)
-
-
-@app.route("/users/<user_id>/<int:lesson_num>")
+@app.route("/users/<user_id>/lesson/<int:lesson_num>")
 def show_lesson_vocabs(user_id,lesson_num):
     """show lesson vocabs """
     # user_id = session["current_user_id"]
@@ -218,32 +196,73 @@ def show_lesson_vocabs(user_id,lesson_num):
     lesson_vocabs_query= db.session\
     .query(Vocabulary)\
     .filter(Vocabulary.user_id == user_id,Vocabulary.lesson_num == lesson_num)\
+    .order_by(Vocabulary.vocab_id)\
     .all()
+    first_word = lesson_vocabs_query[0].word_id
 
-    next_page = lesson_num+1 
+    next_page = lesson_num+1
 
     session['answer_dict'] = {}
 
     return render_template("user_lesson.html",
     lesson_vocabs_query= lesson_vocabs_query,
     lesson_num = lesson_num,
-    user_id=user_id,next_page=next_page)
+    user_id=user_id,next_page=next_page, word_id=first_word)
+
+@app.route("/users/<user_id>/lesson/<lesson_num>/flashcards/<word_id>", methods=["GET"])
+def flashcards(user_id,lesson_num,word_id):
+    """show the words in a lesson """
+
+    lesson_vocabs_query= db.session\
+    .query(Vocabulary)\
+    .filter(Vocabulary.user_id == user_id,Vocabulary.lesson_num == lesson_num)\
+    .order_by(Vocabulary.vocab_id)\
+    .all()
+
+    word_query = db.session.query(Word)\
+    .filter(Word.id==word_id)\
+    .first()
+    current_word_id = word_query.id
+    print (current_word_id)
+
+    # first_vocab = lesson_vocabs_query[0]
+    # first_vocab_word_id = first_vocab.word.id 
+    next_word = None
+    back_word = None
+    for i in range(len(lesson_vocabs_query)):
+
+        # print("query item",lesson_vocabs_query[i])
+        if i != (len(lesson_vocabs_query) - 1):
+            if lesson_vocabs_query[i].word_id ==current_word_id:
+                next_word = lesson_vocabs_query[i+1].word_id 
+
+        if i> 0:
+            back_word = lesson_vocabs_query[i-1].word_id
+            # print("-----------")
+            # print(back_word)
+
+    return render_template("flashcards.html",user_id=user_id,
+    lesson_num=lesson_num,word_id=word_id,
+     next_word=next_word, back_word=back_word, word_query=word_query)        
  
-@app.route("/users/<user_id>/<lesson_num>/<word_id>", methods=["GET", "POST"])
+@app.route("/users/<user_id>/lesson/<lesson_num>/quiz/<word_id>", methods=["GET", "POST"])
 def validate_answers(user_id,lesson_num,word_id):
     """validating answers and reporting a feedback """
 
     lesson_vocabs_query= db.session\
     .query(Vocabulary)\
     .filter(Vocabulary.user_id == user_id,Vocabulary.lesson_num == lesson_num)\
+    .order_by(Vocabulary.vocab_id)\
     .all()
 
     word_query = db.session.query(Word)\
     .filter(Word.id==word_id)\
     .first()
-
     current_word_id = word_query.id
-    
+    first_word = lesson_vocabs_query[0]
+    # print("-------")
+    # print("firstwordid",first_word.word_id)
+    # print("firstwordfarsai",first_word.word.farsi
     next_word = None
     back_word = None
     for i in range(len(lesson_vocabs_query)):
@@ -259,6 +278,7 @@ def validate_answers(user_id,lesson_num,word_id):
                 print("answer",answer)
                 print("word_id",word_id)
                 print("previous word id",previous_word_id)
+                print("i",i)
 
                 if answer == "correct" and previous_word_id:
                     session['answer_dict'][previous_word_id] = 1
@@ -267,27 +287,22 @@ def validate_answers(user_id,lesson_num,word_id):
                     session['answer_dict'][previous_word_id] = 0
                     flash("incorrect answer is been saved",current_word_id)
 
-            if i> 0:
-                back_word = lesson_vocabs_query[i-1].word_id
-                # print("-----------")
-                # print(back_word)
-
-
-        # create an dictunary of answers, where word ids are keys, 
-        # and answers are boolian 
+                if i> 0:
+                    back_word =lesson_vocabs_query[i-1].word_id
+                    # print("-----------")
+                    # print(back_word)
     if request.method == "GET": 
         # print("get request")
         # print(back_word)
 
-        return render_template("flashcard.html",word_query=word_query,
-        lesson_vocabs_query=lesson_vocabs_query,user_id=user_id,
-        lesson_num=lesson_num,
+        return render_template("flashcard_quiz.html", user_id=user_id,
+        lesson_vocabs_query=lesson_vocabs_query,lesson_num=lesson_num, word_query=word_query,
         word_id=word_id, next_word=next_word, back_word=back_word)        
 
     else:
-        return redirect(f"/users/{user_id}/{lesson_num}/{word_id}")
+        return redirect(f"/users/{user_id}/lesson/{lesson_num}/quiz/{word_id}")
 
-@app.route("/users/<user_id>/<lesson_num>/<word_id>/result", methods=["Post"])
+@app.route("/users/<user_id>/lesson/<lesson_num>/quiz/<word_id>/result", methods=["Post"])
 def showlesson_result(user_id,lesson_num, word_id):
     """show result of the flashcard"""
     print("-----------------")
@@ -305,9 +320,16 @@ def showlesson_result(user_id,lesson_num, word_id):
     result_sum = sum(session['answer_dict'].values())
     result_total = len(session['answer_dict'])
 
+    #calculating the first vocab so fr try again ,to go back to beggining 
+    #of the lesson
+    first_word= db.session\
+    .query(Vocabulary)\
+    .filter(Vocabulary.user_id == user_id,Vocabulary.lesson_num == lesson_num)\
+    .order_by(Vocabulary.vocab_id)\
+    .first()
+
     #make a dic of answers where word_id are keys 
     #empty the answer dic before making it again per lesson 
-
     if 'answer_dict' in session:
         for word_id in session['answer_dict']:
             if session['answer_dict'][word_id]== 1:
@@ -317,12 +339,12 @@ def showlesson_result(user_id,lesson_num, word_id):
                 .first()
                 correct_vocab.correct_count += 1
         db.session.commit()
-
         session.pop('answer_dict')
 
     return render_template("lesson_result.html",
     lesson_num=lesson_num, user_id=user_id,result_sum=result_sum,
-    result_total=result_total)
+    result_total=result_total, word_id=word_id,
+    first_word=first_word)
 
 # TODO: make this a POST ONLY
 #add click handeler  to the 
@@ -342,12 +364,29 @@ def update_seen_count(word_id):
     seen_vocab.seen_count += 1
     # how do i update this?
     db.session.commit()
+    return ""
 
+@app.route("/request_new_lesson/<user_id>", methods=["POST", "GET"])
+def request_new_lesson(user_id):
+    user_id = session['current_user_id']
+
+    #find the max lesson number and add one to it to generate a lesson 
+    # return a tuple 
+    user_lesson_num_tuple = db.session\
+    .query(func.max(Vocabulary.lesson_num))\
+    .filter(Vocabulary.user_id == user_id)\
+    .first()
+
+    # print("typeeeeeee",type(user_lesson_num[0]))
+    user_lesson_num = user_lesson_num_tuple[0]
+    new_lesson_num = user_lesson_num +1 
+    lesson_generator(user_id,new_lesson_num)
+    
     return ""
 
 
 
-    
+
 
 
 

@@ -64,15 +64,10 @@ function getPronouciation(){
         if (playPromise !== undefined) {
 
             playPromise.then(_ => {
-
                 console.log("Playback is starting");
-
             })
-
             .catch(error => {
-
-                console.log("Derp. There was an error in loading the audio")
-        
+                console.log("Derp. There was an error in loading the audio")        
             });
         }
     }
@@ -98,6 +93,16 @@ $("#word").click(function(){
     let wordId = this.getAttribute("data-word-id");
     console.log(this.getAttribute("data-word-id"));
     $.ajax({url: "/update_seen_count/" + wordId,
+        success: function(result){
+        $("#div1").html(result);
+    }});
+});
+
+$("#lesson").click(function(){
+    console.log("I've been clicked!");
+    let userId = this.getAttribute("data-user-id");
+    console.log(this.getAttribute("data-user-id"));
+    $.ajax({url: "/request_new_lesson/" + userId,
         success: function(result){
         $("#div1").html(result);
     }});
