@@ -5,15 +5,13 @@
 
 <div>
 
-<form action="/users/{{user_id}}/lesson/{{lesson_num}}/flashcards/{{word_id}}" method='GET'>
-      <input type='submit' value='flashcards' name="flashcards">
+<a href="/users/{{user_id}}/lesson/{{lesson_num}}/flashcards/{{word_id}}"> flashcards
+</a>
   <br>
 </form>
   <br>
-  <form action="/users/{{user_id}}/lesson/{{lesson_num}}/quiz/{{word_id}}"
-    method='GET'>
-    <input type='submit' value='quiz' name="quiz">
-  <br>
+  <a href="/users/{{user_id}}/lesson/{{lesson_num}}/quiz/{{word_id}}">quiz
+    <a>
 </form>
 <br>
   <h2>Lesson: {{lesson_num}} Overview </h2>

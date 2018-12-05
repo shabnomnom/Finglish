@@ -104,7 +104,7 @@ $("#lesson").click(function(){
     console.log(this.getAttribute("data-user-id"));
     $.ajax({url: "/request_new_lesson/" + userId,
         success: function(result){
-        $("#div1").html(result);
+            window.location.href = "/users/" + userId;
     }});
 });
 

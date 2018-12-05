@@ -21,6 +21,7 @@ app.secret_key = "ABC"
 # silently. This is horrible. Fix this so that, instead, it raises an
 # error.
 # app.jinja_env.undefined = StrictUndefined
+
 @app.route('/')
 def index():
     """homepage"""
@@ -97,6 +98,7 @@ def registeration_process():
 
         db.session.add(new_user)
         db.session.commit()
+        session['current_user_id'] = new_user.id 
 
         #generate 1 lesson for users when they register 
         lesson_generator(new_user.id,1)
@@ -160,7 +162,7 @@ def lesson_generator(user_id, lesson_num):
             .outerjoin(Vocabulary, and_(Word.id == Vocabulary.word_id, Vocabulary.user_id == user_id))\
             .filter(Vocabulary.word_id == None)\
             .order_by(func.random())\
-            .limit(10)\
+            .limit(11)\
             .all()
         
         print("words", lesson)
@@ -174,18 +176,40 @@ def lesson_generator(user_id, lesson_num):
             db.session.add(user_vocab)
             db.session.commit()
 
-@app.route("/users/<user_id>")
-def show_user_homepage(user_id):
-    """show the user detail for the specific user id"""
 
-    user = db.session.query(User).filter(User.id == user_id).first()
+# def lesson_generator_ww(user_id, lesson_num):
+
+
+@app.route("/users/<user_id>", methods=["GET","Post"])
+def show_user_homepage(user_id):
+    """show the list of the lessons"""
+
+    english = request.form.get("english")
+    print("post word",english)
+
+    searched_word = db.session.query(Word).filter(Word.english == english).first() 
+    print("query word", searched_word) 
+
+    user_id = session['current_user_id']
+    user = User.query.get(user_id)
+
     user_lesson_num_tuple = db.session\
     .query(func.max(Vocabulary.lesson_num))\
     .filter(Vocabulary.user_id == user_id)\
     .first()
+
     user_lesson_num = user_lesson_num_tuple[0]
-    return render_template("user_homepage.html", user= user,
-    user_lesson_num = user_lesson_num )
+    print("user lesson num", user_lesson_num)
+
+    if request.method == "GET":  
+
+        return render_template("user_homepage.html", user= user,
+        user_lesson_num = user_lesson_num )
+    else:
+        return render_template("words_list.html",
+        searched_word=searched_word)
+
+
 
 @app.route("/users/<user_id>/lesson/<int:lesson_num>")
 def show_lesson_vocabs(user_id,lesson_num):
@@ -198,10 +222,9 @@ def show_lesson_vocabs(user_id,lesson_num):
     .filter(Vocabulary.user_id == user_id,Vocabulary.lesson_num == lesson_num)\
     .order_by(Vocabulary.vocab_id)\
     .all()
+
     first_word = lesson_vocabs_query[0].word_id
-
     next_page = lesson_num+1
-
     session['answer_dict'] = {}
 
     return render_template("user_lesson.html",
@@ -330,16 +353,16 @@ def showlesson_result(user_id,lesson_num, word_id):
 
     #make a dic of answers where word_id are keys 
     #empty the answer dic before making it again per lesson 
-    if 'answer_dict' in session:
-        for word_id in session['answer_dict']:
-            if session['answer_dict'][word_id]== 1:
-                correct_vocab = db.session\
-                .query(Vocabulary)\
-                .filter(and_(Vocabulary.user_id == user_id, Vocabulary.word_id == word_id))\
-                .first()
-                correct_vocab.correct_count += 1
-        db.session.commit()
-        session.pop('answer_dict')
+    # if 'answer_dict' in session:
+    #     for word_id in session['answer_dict']:
+    #         if session['answer_dict'][word_id]== 1:
+    #             correct_vocab = db.session\
+    #             .query(Vocabulary)\
+    #             .filter(and_(Vocabulary.user_id == user_id, Vocabulary.word_id == word_id))\
+    #             .first()
+    #             correct_vocab.correct_count += 1
+    #     db.session.commit()
+    #     session.pop('answer_dict')
 
     return render_template("lesson_result.html",
     lesson_num=lesson_num, user_id=user_id,result_sum=result_sum,
@@ -369,6 +392,8 @@ def update_seen_count(word_id):
 @app.route("/request_new_lesson/<user_id>", methods=["POST", "GET"])
 def request_new_lesson(user_id):
     user_id = session['current_user_id']
+    user = User.query.get(user_id)
+    print("user",user)
 
     #find the max lesson number and add one to it to generate a lesson 
     # return a tuple 
@@ -382,10 +407,10 @@ def request_new_lesson(user_id):
     new_lesson_num = user_lesson_num +1 
     lesson_generator(user_id,new_lesson_num)
     
-    return ""
+    return redirect(f"/profile/{user_id}")
 
 
-
+@app.route ("weighted_word/lessons", methods=["POST", "GET"]) 
 
 
 

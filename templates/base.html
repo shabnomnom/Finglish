@@ -4,7 +4,8 @@
     <title> Learning Finglish </title>
 </head>
 <body>
-Finglish Dictionary 
+  <a href="/users/{{session['current_user_id']}}">Finglish Dictionary 
+  <a>
 <hr>
 
 <ul>
@@ -20,11 +21,6 @@ Finglish Dictionary
         <input type='submit' value='Log Out' name='log_out'>
     <br><br>
     </form>
-  
-  <form action="/users/{{user_id}}" method='GET'>
-        <input type='submit' value='Homepage' name="Homepage">
-    <br><br>
-  </form>
 
 {% endif %}
 

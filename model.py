@@ -85,7 +85,7 @@ class Vocabulary(db.Model):
     @property
     def weight(self):
         vocab = Vocabulary.query.filter(vocab_id=self.id)
-        return vocab.correct_count / vocab.seen_count
+        return (vocab.correct_count / vocab.seen_count)*100
 
 
    
