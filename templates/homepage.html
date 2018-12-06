@@ -1,25 +1,31 @@
 {% extends 'base.html' %}
 {% block content %}
-<div>
-  <h1>Learning Finglish </h1>
 
-  <h2>words</h2>
-  <p><a href="/words">View all words</a></p>
+<div  class="col-xs-1 text-center">
 
-  <h2>users</h2>
-  <p><a href="/users">View all users</a></p>
-
-
-  <h2>New Users</h2>
-  <p><a href="/registration">Register Here</a></p>
-
-  <!-- add an if statement that desplay log in only if there is no session stored -->
-
-  {% if  not user_id %}
-    <h2>Log In </h2>
-    <p><a href="/log_in">Log In </a></p>
+   
   
+  <!-- add an if statement that desplay log in only if there is no session stored -->
+  {% if  not user_id %}
+  <div class="wrapper" >
+    <form  class="form-signin" action="/log_in"
+      method='POST'>
+      <h5 class="form-signin-heading">Please login</h5>
+      <br>
+      <label class="login"> Email Address </label>
+      <input type="text" class="form-control" name="email" placeholder="Email Address" required="" autofocus="" />
+      <br>
+      <label class="login"> Password </label>
+      <input type="password" class="form-control" name="password" placeholder="Password" required=""/>    
+      <br>  
+      <input class="btn btn-lg btn-primary btn-block" value="Log In" type="submit">
+      </input>   
+    </form>
+      New to Finglishi? <a href="/registration">Sign Up Here
+      </a>
+
+
   {% endif %}
-</div>
+  </div> 
 
 {% endblock %}

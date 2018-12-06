@@ -1,7 +1,10 @@
 {% extends 'base.html' %}
 {% block content %}
-<script src="http://code.jquery.com/jquery.js"></script>
+
  <div>
+  <a href="/users/{{user_id}}/lesson/{{lesson_num}}"> Back to lesson 
+  </a>
+  <br>
 
   {{word_query.farsi}}
     <ul style="list-style-type:circle">

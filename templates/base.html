@@ -1,30 +1,62 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title> Learning Finglish </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <script src="http://code.jquery.com/jquery.js">
+  </script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  
+<!--   load font awsome 
+ -->
+ <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
+
+<!-- loading my styling sheet
+ --> 
+ <link href="/static/project.css" rel="stylesheet">
+
+
 </head>
-<body>
-  <a href="/users/{{session['current_user_id']}}">Finglish Dictionary 
-  <a>
-<hr>
+<body  class="bg">
+  <a  href="/users/{{session['current_user_id']}}">Finglishi
+  </a>
+  <ul>
+      {% for message in get_flashed_messages() %}
+      <li>{{ message }}</li>
+      {% endfor %}
+  </ul>
 
-<ul>
-    {% for message in get_flashed_messages() %}
-    <li>{{ message }}</li>
-    {% endfor %}
-</ul>
-
-
-
-{% if session %}
-    <form action="/log_out" method='POST'>
-        <input type='submit' value='Log Out' name='log_out'>
-    <br><br>
-    </form>
-
+  {% if session %}
+      <form  action="/log_out" method='POST'>
+          <input class="btn btn-primary" type='submit' value='Log Out' name='log_out'>
+      <br><br>
+      </form>
 {% endif %}
+<!-- Footer -->
+<footer class="page-footer font-small blue">
+
+  <!-- Copyright -->
+  <div class="footer-copyright">
+    © 2018 Copyright:Persian Calligraphy Farsi Poem, Original Acrylic color on Canvas by Mohammad 
+    <a href="www.etsy.com"> </a>
+  </div>
+  <!-- Copyright -->
+
+</footer>
+<!-- Footer -->
+{% block content %}
 
 
-{% block content %} put your content here {% endblock %}
+{% endblock %}
+
+
+<script type="text/javascript" src="/static/js-functions.js"></script>
 </body>
 </html>
+
+
+
+
+
+
+

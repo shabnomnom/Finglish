@@ -1,26 +1,33 @@
 {% extends 'base.html' %}
 {% block content %}
+<div class="col-xs-1 text-center">
 
-<h1>Register here </h1>
-
-    <form action="/registration" method="POST">
-        First Name :<br>
-        <input type="text" name="first_name"> <br>
-        Last Name :<br>
-
-        <input type="text" name="last_name"> <br>
-        Email :<br>
-        <input type="text" name="email"> <br>
-
-        Password :<br>
-        <input type="password" name="password"> <br>
-        age :<br>
-        <input type="text" name="age"> <br>
-        country :<br>
-        <input type="text" name="country"> <br>
-        <input type="submit" name="submit">
+    <div class="wrapper" >
+    <form  class="form-signin" action="/registration" method="POST">
+        <h5 class="form-signin-heading">Register Here</h5>
+        <br>
+        <label class="login">First Name </label>
+        <input type="text" name="first_name" class="form-control" placeholder="First Name" required="" autofocus="" />
+        <br>
+        <label class="login">Last Name </label>
+        <input type="text" name="Last name" class="form-control" name="email" placeholder="last_name" required="" autofocus="" />
+        <br> 
+        
+        <label class="login">Email Address </label>
+        <input type="text" class="form-control" name="email" placeholder="Email Address" required="" autofocus="" />
+        <br>
+        <label class="login">Password </label>
+        <input type="password" name="password"class="form-control" placeholder="Password" required=""/> 
+        <br>
+        <label class="login">Birthday </label>
+        <input type="date" name="age" class="form-control"
+        name="password" placeholder="Password" required=""/>   
+        <br>
+        <label class="login">Country </label>
+        <input type="text" name="country" class="form-control" name="password" placeholder="Country" required=""/>    <br>
+        <input class="btn btn-lg btn-primary btn-block" type="submit" name="submit" value="Create an Acount">
     </form>
 
-
+</div>
 
 {% endblock %}

@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div>
+  <a href="/users/{{user_id}}/lesson/{{lesson_num}}"> Back to lesson 
+  </a>
+<br>
+  <h5>Lesson {{lesson_num}} words:</h5>
+  <ul>    
+    {% for vocab in lesson_vocabs_query %}
+      <li>
+        <a href = "/users/{{user_id}}/lesson/{{lesson_num}}/flashcards/{{vocab.word.id}}">{{vocab.word.farsi}}
+        </a>
+        <ul style="list-style-type:disc">
+          <li> Translation: {{vocab.word.english}}</li>
+          <li> Phonetic: {{vocab.word.farsi_phonetic}}</li>
+          <li> 
+            <audio id='{{vocab.word.farsi}}' controls="controls">
+              <source id = "audio_src_{{vocab.word.farsi}}" src="" type="audio/mpeg" />
+            </audio>
+          </li>
+          
+        </ul>
+      </li>
+    {% endfor %}
+  </ul>
+<a href="/users/{{user_id}}/lesson/{{next_page}}/overview" > next lesson
+</a>
+  
+</div>
+<script type="text/javascript" src="/static/js-functions.js"></script>
+{% endblock %}
