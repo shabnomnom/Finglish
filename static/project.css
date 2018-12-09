@@ -17,7 +17,7 @@
 }
 
 /* Do an horizontal flip when you move the mouse over the flip box container */
-.flip-card:hover .flip-card-inner {
+.flip-card.hover .flip-card-inner {
   transform: rotateY(180deg);
 }
 
@@ -45,29 +45,19 @@
 
 /*   Sitewide  */
 .navbar {
-  background-color: #1a75ff;
-  color: white;
+  background-color: #EFD9C1;
+  color: #A9B7C0;
   border-radius: 0px;
-}
-
-#ubermelon-logo, #ubermelon-logo:hover, .navbar-dark .navbar-brand {
-  color: #151515;
-}
-
-.navbar-nav>li>a, .navbar-dark .navbar-nav .nav-link {
-  color: white;
-}
-
-section {
-  margin-top: 50px;
 }
 
 
 .bg {
-  background-image: url("landing.jpg");
-  background-blend-mode: lighten;
-  background-color: #A9B7C0;
-  background-size:contain; 
+  background-image: url(landing.jpg);
+  background-blend-mode :darken;
+  background-color: #A9B7C0 ;
+  background-size:contain;
+  background-position: right bottom;
+  background-repeat: no-repeat ;
 
 }
 .footer {
@@ -80,23 +70,30 @@ section {
 
 
 .wrapper {  
-  margin-top: 0px;
+  margin-top: 115px;
+  margin-left: 10px;
+  float:left;
 }
 
 .form-signin {
-  max-width: 280px;
-  padding: 15px 35px 45px;
+  max-width: 400px;
+  padding: 20px 35px 45px;
   margin: 0 auto;
   background-color: #cbd3d9 ;
   border-radius: 5px;
-
+  align-content: left;
+}
+.title{
+  align-content: center;
+}
 
   .form-control {
     position: relative;
     font-size: 16px;
     height: auto;
-    padding: 20px;
+    padding: 10px;
     @include box-sizing(border-box);
+    float:left;
 
     &:focus {
       z-index: 2;
@@ -121,6 +118,64 @@ section {
   float:left;
 
 }
-.footer-copyright{
-  size: 8px;
+.page-footer{
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 20px;
+  font-size: 10px;
+}
+
+.blue_screen{
+  background-color: #A9B7C0;
+  background-size:contain;
+  background-repeat: no-repeat ;
+}
+/*/*for about*/
+.about{
+ margin: 4em 0;
+ padding: 1em;
+ position: relative;
+}
+.about h1{
+ color:#F97300;
+ margin: 2em;
+}
+.about img{
+ height: 100%;
+    width: 100%;
+    border-radius: 50%
+}
+.about span{
+ display: block;
+ color: #888;
+ position: absolute;
+ left: 115px;
+}
+.about .desc{
+ padding: 2em;
+ border-left:4px solid #10828C;
+}
+.about .desc h3{
+ color: #10828C;
+}
+.about .desc p{
+ line-height:2;
+ color:#888;
+}
+/*end of about*/
+img {
+    vertical-align: middle;
+    border-style: none;
+    height: 45px;
+}
+
+.box{
+  padding: 50;
+  border-top-left-radius: 5;
+  border-color: black;
+}
+p {
+  color: blue;
+}
 

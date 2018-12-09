@@ -1,16 +1,25 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<div  class="col-xs-1 text-center">
+<style>
+body {
+  background-image: url('/static/landing.jpg');
+  background-blend-mode: lighten;
+  background-color: #A9B7C0 ;
+  background-size:contain;
+  background-position: 100% 0%;
+  background-repeat: no-repeat ;
 
-   
-  
+}
+</style>
+<div class= "container">
+  <div class="col-md-4 text-center">
   <!-- add an if statement that desplay log in only if there is no session stored -->
   {% if  not user_id %}
   <div class="wrapper" >
     <form  class="form-signin" action="/log_in"
       method='POST'>
-      <h5 class="form-signin-heading">Please login</h5>
+      <h5 class="form-signin-heading title">Please login</h5>
       <br>
       <label class="login"> Email Address </label>
       <input type="text" class="form-control" name="email" placeholder="Email Address" required="" autofocus="" />
@@ -24,8 +33,17 @@
       New to Finglishi? <a href="/registration">Sign Up Here
       </a>
 
-
   {% endif %}
+</div>
   </div> 
+  <footer class="page-footer font-small blue">
 
+  <!-- Copyright -->
+  <div class="footer-copyright">
+    © 2018 Copyright:Persian Calligraphy Farsi Poem, Original Acrylic color on Canvas by Mohammad 
+    <a href="www.etsy.com"> </a>
+  </div>
+  <!-- Copyright -->
+
+</footer>
 {% endblock %}

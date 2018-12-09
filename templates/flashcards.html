@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
-
- <div>
+<div class="container">
+ <div class="col-md-1 text-center">
   <a href="/users/{{user_id}}/lesson/{{lesson_num}}"> Back to lesson 
   </a>
   <br>
@@ -31,10 +31,9 @@
 <br>
 {% if back_word is not none %}
 <form action="{{back_word}}" >
-  <button type="submit">Back
+  <button type="submit"  class="btn-primary">Back
   </button>
  </form>
 {% endif %}
  </div>
- <script type="text/javascript" src="/static/js-functions.js"></script>
 {% endblock %}

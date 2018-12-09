@@ -1,18 +1,39 @@
 {% extends 'base.html' %}
 {% block content %}
-<script src="http://code.jquery.com/jquery.js"></script>
-
-<div>
-  
-<h2>welcome back {{user.first_name}} </h2>
-  <div>
-
-    <a href="/words">Search for a word  
+  <a class="navbar-brand login" >
+  </a>
+<nav class="navbar">
+  {% if not session %}
+  <a class="navbar-brand login"><img class="img-responsive2"       
+       src="/static/farsi-logo.png"></a>
+  {% else %}
+    <a class="navbar-brand login" href="/users/{{session['current_user_id']}}"><img class="img-responsive2"       
+       src="/static/farsi-logo.png">
     </a>
-    <br></br>
-    <a  href = "/profile/{{user.id}}" >  profile
-    </a> 
-    
+
+  </a>
+  {% endif %}
+  <a class="navbar-brand login" href="https://github.com/shabnomnom/Finglish_Dictionary_App">Github 
+  </a>
+  <form action="/dictionary" method="POST"class="form-inline">
+    <input name="english" class="form-control mr-sm-2" type="search" placeholder="English Word " aria-label="Search">
+    <input type="submit" class="btn btn-outline-info my-2 my-sm-0" value="Look Up">
+  </form> 
+    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> {{user.first_name}}
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" action="/log_out"
+          method="post">log out</a>
+        <div class="dropdown-divider"></div>
+  </nav>
+
+<div class="container">
+<form  action="/log_out" method='POST'>
+          <input class="btn btn-primary" type='submit' value='Log Out' name='log_out'>
+      <br><br>
+      </form>
+  <h5>welcome back {{user.first_name}} </h5>
+ 
   <div>
     <h3> Lessons: <h3>
       {% for num in range(1,user_lesson_num +1 ) %}
@@ -23,12 +44,9 @@
      </li>   
       {% endfor %}
   </div>
-
-<button id="lesson" data-user-id="{{user.id}}">Get a new lesson
-</button>
-
+  <button id="lesson" data-user-id="{{user.id}}">Get a new lesson
+  </button>
 </div>
-
 
 <script type="text/javascript" src="/static/js-functions.js"></script>
 {% endblock %}

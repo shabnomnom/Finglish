@@ -1,9 +1,12 @@
 {% extends 'base.html' %}
 {% block content %}
-<div>
+<div class="col-md-1 text-right">
 
-  <h3> User Info: <h3>
+  <h5> User Info: <h5>
+    {{first_name}}
+    {{last_name}}
   country: {{country}}
+
   <br>
   age :{{age}} 
     <!-- make the birthday date rather than age -->

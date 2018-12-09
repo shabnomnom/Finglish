@@ -35,13 +35,13 @@ def index():
 
         return render_template('homepage.html')
 
-@app.route('/words')
+@app.route('/dictionary')
 def all_words():
     """view all words """
     
     return render_template("words_list.html")
 
-@app.route('/words', methods=["POST"])
+@app.route('/dictionary', methods=["POST"])
 def search_word():
     """search for a word """
 
@@ -66,8 +66,11 @@ def pronunciation(farsi):
 @app.route('/users')
 def all_users():
     """view all users """
-    users = User.query.all()
-    return render_template("user_list.html", users=users )
+    if session: 
+        users = User.query.all()
+        return render_template("user_list.html", users=users )
+    else: 
+        return redirect('/')
 # word.word_id is not defined and misleading syntax for python
 # change that with the word_id to create a new variable out of the number 
 #that route returns 
@@ -126,10 +129,10 @@ def login_process():
         #putting a session on the user id to be able to log it out, while logged in 
         session['current_user_id'] = current_user.id
         app.logger.info(str(session['current_user_id']))
-        flash("welcome {} you are logged in".format(current_user.first_name))
+        # flashing_welcome =flash("welcome {} you are logged in".format(current_user.first_name))
         return redirect (f'/users/{current_user.id}')
     else: 
-        flash ("invalid password, please try again")
+        # flashing_invalid_password=flash ("invalid password, please try again")
         return redirect("/")
 
 @app.route('/log_out', methods=["POST"])
@@ -137,7 +140,7 @@ def logout_process():
     """ give the option of logging out if the user is logged in"""
     if 'current_user_id' in session.keys():
         session.clear()
-    flash("see you next time")
+    # flash("see you next time")
     return redirect("/")
 
 @app.route('/profile/<user_id>')

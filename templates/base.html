@@ -5,6 +5,7 @@
 
   <script src="http://code.jquery.com/jquery.js">
   </script>
+
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   
 <!--   load font awsome 
@@ -14,12 +15,10 @@
 <!-- loading my styling sheet
  --> 
  <link href="/static/project.css" rel="stylesheet">
-
-
 </head>
-<body  class="bg">
-  <a  href="/users/{{session['current_user_id']}}">Finglishi
-  </a>
+
+<body class="blue_screen">
+
   <ul>
       {% for message in get_flashed_messages() %}
       <li>{{ message }}</li>
@@ -27,28 +26,18 @@
   </ul>
 
   {% if session %}
-      <form  action="/log_out" method='POST'>
+      <!-- <form  action="/log_out" method='POST'>
           <input class="btn btn-primary" type='submit' value='Log Out' name='log_out'>
       <br><br>
-      </form>
+      </form> -->
 {% endif %}
-<!-- Footer -->
-<footer class="page-footer font-small blue">
-
-  <!-- Copyright -->
-  <div class="footer-copyright">
-    © 2018 Copyright:Persian Calligraphy Farsi Poem, Original Acrylic color on Canvas by Mohammad 
-    <a href="www.etsy.com"> </a>
   </div>
-  <!-- Copyright -->
+<!-- Footer -->
 
-</footer>
 <!-- Footer -->
 {% block content %}
 
-
 {% endblock %}
-
 
 <script type="text/javascript" src="/static/js-functions.js"></script>
 </body>

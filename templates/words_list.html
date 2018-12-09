@@ -2,14 +2,6 @@
 {% block content %}
 <script src="http://code.jquery.com/jquery.js"></script>
 
-<h1>Searched Word </h1>
-
-<form action="/words" method="POST">
-  Search for a word in English : <input type="text" name="english">
-  <br>
-  <input type="submit" value="Submit">
-</form>
-
 {% if searched_word %}
 <li >{{searched_word.farsi}}
             <ul style="list-style-type:circle">

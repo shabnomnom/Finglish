@@ -1,18 +1,16 @@
 {% extends 'base.html' %}
 {% block content %}
-<a href="/users/{{user_id}}/lesson/{{lesson_num}}"> Back to lesson 
+  <a href="/users/{{user_id}}/lesson/{{lesson_num}}"> Back to lesson 
   </a>
 <div class=container>
-  <br>
-  <button id="word" data-word-id="{{word_id}}">{{word_query.farsi}}
-  </button>
-  <div class="flip-card">
+<div  class="col-md-1 text-center">
+  <div class="flip-card" data-word-id="{{word_id}}">
     <div class="flip-card-inner">
       <div class="flip-card-front" id="word" data-word-id="{{word_id}}">
         <p> {{word_query.farsi}} <p>
         <audio id='{{word_query.farsi}}' controls="controls">
-        <source id = "audio_src_{{word_query.farsi}}" src="" type="audio/mpeg" >
-        </source>
+          <source id = "audio_src_{{word_query.farsi}}" src="" type="audio/mpeg" >
+          </source>
         </audio>
       </div>
       <div class="flip-card-back">
@@ -22,9 +20,6 @@
       </ul>
       </div>
     </div>
-  </div>
-
-<div class=container>
 {% if next_word is not none %}
 <form action="/users/{{user_id}}/lesson/{{lesson_num}}/quiz/{{next_word}}"  method="POST">
   <input type="radio" name="answer" value="correct"/>
@@ -33,7 +28,7 @@
     <input type="radio" name="answer" value="incorrect"/>
     I did not remember
     <br>
-    <input type="hidden" name= "previous_word_id" value={{word_id}}>
+    <input type="hidden" name= "previous_word_id"  class="btn-primary" value={{word_id}}>
     <button type="submit">Next
   </button>
 </form>
@@ -56,14 +51,12 @@
 
 {% if back_word is not none %}
 <form action="{{back_word}}" >
-  <button type="submit">Back
+  <button type="submit" class="btn-primary">Back
   </button>
 </form>
 {% endif %}
 </div>
-
-
-
-<script type="text/javascript" src="/static/js-functions.js"></script>
+</div>
+</div>
 
 {% endblock %}

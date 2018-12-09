@@ -1,21 +1,22 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-md-4 text-center">
 
-<div class="col-xs-1 text-center">
-
-  <a class="btn btn-success" href="/users/{{user_id}}/lesson/{{lesson_num}}/flashcards/{{word_id}}"" role="button"> flashcards
-  </a>
-  <br>
-  <a class="btn btn-success" href="/users/{{user_id}}/lesson/{{lesson_num}}/quiz/{{word_id}}"
-  role="button">quiz
-    </a>
-  <br>
-  <br>
-
-  <a class="btn btn-success" href="/users/{{user_id}}/lesson/{{lesson_num}}/overview" role="button">lesson overview
-  </a>
-  <br>
-  </br>
+      <a class="btn btn-primary box" href="/users/{{user_id}}/lesson/{{lesson_num}}/flashcards/{{word_id}}"" role="button"> flashcards
+      </a>
+    </div>
+    <div class="col-md-4 text-center">
+      <a class="btn btn-primary" href="/users/{{user_id}}/lesson/{{lesson_num}}/quiz/{{word_id}}"
+      role="button">quiz
+        </a>
+    </div>
+   <div class="col-md-4 text-center"> 
+      <a class="btn btn-primary" href="/users/{{user_id}}/lesson/{{lesson_num}}/overview" role="button">lesson overview
+      </a>
+    </div>
+  </div>
 <script type="text/javascript" src="/static/js-functions.js"></script>
 {% endblock %}
