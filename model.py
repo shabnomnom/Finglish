@@ -23,7 +23,7 @@ class User(db.Model):
     last_name = db.Column(db.String(100), nullable=True)
     email = db.Column(db.String, nullable=True)
     password = db.Column(db.String, nullable=True)
-    age = db.Column(db.Integer, nullable=True)
+    age = db.Column(db.DateTime, nullable=True)
     country = db.Column(db.String, nullable=True)
 
     def __repr__(self):

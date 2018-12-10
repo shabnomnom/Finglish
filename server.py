@@ -419,7 +419,7 @@ def request_new_lesson(user_id):
     # print("typeeeeeee",type(user_lesson_num[0]))
     user_lesson_num = user_lesson_num_tuple[0]
     new_lesson_num = user_lesson_num +1 
-    lesson_generator(user_id,new_lesson_num)
+    lesson_generator(user_id,new_lesson_num)    
     
     return redirect(f"/profile/{user_id}")
 
