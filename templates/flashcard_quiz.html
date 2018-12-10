@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
+<div class="container">
+ <div class="col-md-1 text-center">
   <a href="/users/{{user_id}}/lesson/{{lesson_num}}"> Back to lesson 
   </a>
 <div class=container>
@@ -8,7 +10,7 @@
     <div class="flip-card-inner">
       <div class="flip-card-front" id="word" data-word-id="{{word_id}}">
         <p> {{word_query.farsi}} <p>
-        <audio id='{{word_query.farsi}}' controls="controls">
+        <audio id='{{word_query.farsi}}' controls="controls" class="btn-primary">
           <source id = "audio_src_{{word_query.farsi}}" src="" type="audio/mpeg" >
           </source>
         </audio>

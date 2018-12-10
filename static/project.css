@@ -1,5 +1,5 @@
 .flip-card {
-  background-color: transparent;
+  background-color: white;
   width: 300px;
   height: 200px;
   border: 1px solid #f1f1f1;
@@ -31,7 +31,7 @@
 
 /* Style the front side (fallback if image is missing) */
 .flip-card-front {
-  background-color: #6699ff;
+  background-color: #white;
   color: black;
 }
 
