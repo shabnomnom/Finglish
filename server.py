@@ -43,8 +43,6 @@ def all_words():
 
 @app.route('/dictionary', methods=["POST"])
 def search_word():
-    user = db.session.query(User).filter(User.id == session['current_user_id']).first()
-
     """search for a word """
     english = request.form.get("english")
     print("post word",english)
@@ -53,7 +51,7 @@ def search_word():
     print("query word", searched_word) 
 
 
-    return render_template("words_list.html", searched_word=searched_word, user=user)
+    return render_template("words_list.html", searched_word=searched_word)
 
 @app.route('/pronouciation/<farsi>')
 def pronunciation(farsi):

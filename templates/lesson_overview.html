@@ -9,42 +9,27 @@
       </a>
     </div>
   </div>
-<br>
-<h4>Lesson {{lesson_num}} words:</h4>
-<br>
-<table class="table">
+  <h4>Lesson {{lesson_num}} words:</h4>
+  <table class="table">
   <thead>
     <tr>
       <th scope="col">Farsi Words</th>
       <th scope="col">Translation</th>
       <th scope="col">Phonetic</th>
-      <th scope="col">Pronounciation</th>
     </tr>
   </thead>
-  <tbody>
-    <tr>
-      <th scope="row"></th>
-      <td>Larry</td>
-      <td>the Bird</td>
-      <td>@twitter</td>
-    </tr>
-  </tbody>
-</table>
   {% for vocab in lesson_vocabs_query %}
   <tbody>
-    <tr>
-    <th scope="row">{{vocab.word.farsi}}</th> href = 
+    <tr scope="row">
+          <td> {{vocab.word.farsi}}</td>
           <td> {{vocab.word.english}}</td>
           <td> {{vocab.word.farsi_phonetic}}</td>
-          <td>
-            <audio id='{{vocab.word.farsi}}' controls="controls">
-              <source id = "audio_src_{{vocab.word.farsi}}" src="" type="audio/mpeg" />
-            </audio> </td>
 
       </tbody> 
+      {% endfor %}
     </table>   
         
-    {% endfor %}
+  
     <div class="row justify-content-start">
       <div class = "col-9">
         <a href="/users/{{user_id}}/lesson/{{next_page}}/overview" class="text-info"> next lesson

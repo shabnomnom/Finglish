@@ -76,58 +76,7 @@
   color: black;
 }
 
-@import "bourbon";
 
-
-.wrapper {  
-  margin-top: 115px;
-  margin-left: 10px;
-  float:left;
-}
-
-.form-signin {
-  max-width: 400px;
-  padding: 20px 35px 45px;
-  margin: 0 auto;
-  background-color: #cbd3d9 ;
-  border-radius: 5px;
-  align-content: left;
-}
-.title{
-  align-content: center;
-}
-
-  .form-control {
-    position: relative;
-    font-size: 16px;
-    height: auto;
-    padding: 10px;
-    @include box-sizing(border-box);
-    float:left;
-
-    &:focus {
-      z-index: 2;
-    }
-  }
-
-  input[type="text"] {
-    margin-bottom: -1px;
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-  }
-
-  input[type="password"] {
-    margin-bottom: 20px;
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-  }
-}
-
-.login {
-  text-align: left;
-  float:left;
-
-}
 .page-footer{
   position: absolute;
   bottom: 0;
@@ -186,4 +135,57 @@ img {
 .next {
   margin-top: 0px;
   padding: 3px 20px;
+}
+
+@import "bourbon";
+
+
+.wrapper {  
+  margin-top: 115px;
+  margin-left: 10px;
+  float:left;
+}
+
+.form-signin {
+  max-width: 400px;
+  padding: 20px 35px 45px;
+  margin: 0 auto;
+  background-color: #cbd3d9 ;
+  border-radius: 5px;
+  align-content: left;
+}
+.title{
+  align-content: center;
+}
+
+  .form-control {
+    position: relative;
+    font-size: 16px;
+    height: auto;
+    padding: 10px;
+    @include box-sizing(border-box);
+    float:left;
+
+    &:focus {
+      z-index: 2;
+    }
+  }
+
+  input[type="text"] {
+    margin-bottom: -1px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  input[type="password"] {
+    margin-bottom: 20px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+}
+
+.login {
+  text-align: left;
+  float:left;
+
 }
