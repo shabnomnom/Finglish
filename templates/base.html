@@ -3,8 +3,14 @@
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <script src="http://code.jquery.com/jquery.js">
+  <!-- <script src="http://code.jquery.com/jquery.js"> -->
   </script>
+
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   
@@ -17,7 +23,55 @@
  <link href="/static/project.css" rel="stylesheet">
 </head>
 
-<body class="blue_screen">
+
+<nav class="navbar login navbar-expand-lg navbar-light justify-content-between">
+
+  {% if not session %}
+  <a class="navbar-brand login">
+    <img class="img-responsive2" src="/static/farsi-logo.png">
+  </a>
+
+  <div class="collapse navbar-collapse" id=navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+            <form action="/dictionary" method="POST" class="form-inline">
+                <input name="english" class="form-control mr-sm-2" type="search" placeholder="English Word " aria-label="Search">
+            <input type="submit" class="btn btn-outline-info my-2 my-sm-0" value="Look Up">
+          </form>
+        </li>
+    </ul>
+  </div>
+  {% else %}
+
+    <a class="navbar-brand login" href="/users/{{session['current_user_id']}}">
+      <img class="img-responsive2" src="/static/farsi-logo.png">
+    </a>
+
+    <div class="collapse navbar-collapse" id=navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Account
+          </a>
+
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="/profile/{{session['current_user_id']}}">Profile</a>
+            <form action="/log_out" method='POST'>
+              <button class="btn btn-logout" type='submit'>Logout</button>
+            </form>
+          </div>
+        </li>
+      </ul>
+      <form action="/dictionary" method="POST" class="form-inline">
+          <input name="english" class="form-control mr-sm-2" type="search" placeholder="English Word" aria-label="Search">
+          <button class="btn btn-outline-info my-2 my-sm-0" type="submit" value="Look Up">Search</button>
+      </form>
+    </div>
+    {% endif %}
+  </nav>
+
+  <body class="blue_screen">
+
 
   <ul>
       {% for message in get_flashed_messages() %}

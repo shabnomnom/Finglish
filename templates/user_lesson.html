@@ -2,21 +2,25 @@
 
 {% block content %}
 <div class="container">
+  <div>Lesson: {{lesson_num}} </div>
   <div class="row">
     <div class="col-md-4 text-center">
 
-      <a class="btn btn-primary box" href="/users/{{user_id}}/lesson/{{lesson_num}}/flashcards/{{word_id}}"" role="button"> flashcards
+      <a class="btn btn-info box" href="/users/{{user_id}}/lesson/{{lesson_num}}/flashcards/{{word_id}}"" role="button"> 
+        <p>Flashcards </p>
       </a>
     </div>
     <div class="col-md-4 text-center">
-      <a class="btn btn-primary" href="/users/{{user_id}}/lesson/{{lesson_num}}/quiz/{{word_id}}"
-      role="button">quiz
+      <a class="btn btn-info box" href="/users/{{user_id}}/lesson/{{lesson_num}}/quiz/{{word_id}}"
+      role="button">
+      <p>Quiz</p>
         </a>
     </div>
    <div class="col-md-4 text-center"> 
-      <a class="btn btn-primary" href="/users/{{user_id}}/lesson/{{lesson_num}}/overview" role="button">lesson overview
+      <a class="btn btn-info box"  href="/users/{{user_id}}/lesson/{{lesson_num}}/overview" role="button">
+        <p>Lesson Review</p>
       </a>
     </div>
   </div>
-<script type="text/javascript" src="/static/js-functions.js"></script>
 {% endblock %}
+<script type="text/javascript" src="/static/js-functions.js"></script>

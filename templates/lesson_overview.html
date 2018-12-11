@@ -2,31 +2,55 @@
 
 {% block content %}
 
-<div>
-  <a href="/users/{{user_id}}/lesson/{{lesson_num}}"> Back to lesson 
-  </a>
+<div class="container ">
+    <div class="row justify-content-start">
+    <div class = "col-9">
+      <a href="/users/{{user_id}}/lesson/{{lesson_num}}" class="text-info"> Back to lesson
+      </a>
+    </div>
+  </div>
 <br>
-  <h5>Lesson {{lesson_num}} words:</h5>
-  <ul>    
-    {% for vocab in lesson_vocabs_query %}
-      <li>
-        <a href = "/users/{{user_id}}/lesson/{{lesson_num}}/flashcards/{{vocab.word.id}}">{{vocab.word.farsi}}
-        </a>
-        <ul style="list-style-type:disc">
-          <li> Translation: {{vocab.word.english}}</li>
-          <li> Phonetic: {{vocab.word.farsi_phonetic}}</li>
-          <li> 
+<h4>Lesson {{lesson_num}} words:</h4>
+<br>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Farsi Words</th>
+      <th scope="col">Translation</th>
+      <th scope="col">Phonetic</th>
+      <th scope="col">Pronounciation</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row"></th>
+      <td>Larry</td>
+      <td>the Bird</td>
+      <td>@twitter</td>
+    </tr>
+  </tbody>
+</table>
+  {% for vocab in lesson_vocabs_query %}
+  <tbody>
+    <tr>
+    <th scope="row">{{vocab.word.farsi}}</th> href = 
+          <td> {{vocab.word.english}}</td>
+          <td> {{vocab.word.farsi_phonetic}}</td>
+          <td>
             <audio id='{{vocab.word.farsi}}' controls="controls">
               <source id = "audio_src_{{vocab.word.farsi}}" src="" type="audio/mpeg" />
-            </audio>
-          </li>
-          
-        </ul>
-      </li>
+            </audio> </td>
+
+      </tbody> 
+    </table>   
+        
     {% endfor %}
-  </ul>
-<a href="/users/{{user_id}}/lesson/{{next_page}}/overview" > next lesson
-</a>
-  
+    <div class="row justify-content-start">
+      <div class = "col-9">
+        <a href="/users/{{user_id}}/lesson/{{next_page}}/overview" class="text-info"> next lesson
+        </a>
+      </div>
+    </div>
+</div>  
 </div>
 {% endblock %}

@@ -1,8 +1,9 @@
 {% extends 'base.html' %}
 {% block content %}
-<script src="http://code.jquery.com/jquery.js"></script>
 
-
+<div class="container ">
+  <div class="row">
+    <div class="col-md-12 text-center">
 
 <h2> Nice Work  <h2>
 <h3> You  just studied {{result_total}} words!<h3>
@@ -11,13 +12,15 @@
 
   <!-- Lesson {{lesson_num}}: .......................{{result}}% -->
   <br>
-  <a href = "/users/{{user_id}}/lesson/{{lesson_num}}/quiz/{{first_word.word_id}}"> TryAgain 
+  <a href = "/users/{{user_id}}/lesson/{{lesson_num}}/quiz/{{first_word.word_id}}" class="btn-info"> TryAgain 
   </a>
   <br>
 
 
 
 
-  
+   
+</div> 
+</div> 
 </div>
 {% endblock %}
