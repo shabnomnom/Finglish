@@ -16,6 +16,7 @@
       <th scope="col">Farsi Words</th>
       <th scope="col">Translation</th>
       <th scope="col">Phonetic</th>
+      <th scope="col">Pronounciation</th>
     </tr>
   </thead>
   {% for vocab in lesson_vocabs_query %}
@@ -24,6 +25,13 @@
           <td> {{vocab.word.farsi}}</td>
           <td> {{vocab.word.english}}</td>
           <td> {{vocab.word.farsi_phonetic}}</td>
+          <td> 
+          <audio id='{{vocab.farsi}}' controls="controls">
+            <source id = "audio_src_{{vocab.farsi}}" src="" type="audio/mpeg" >
+            </source>
+          </audio>
+          </td>
+
 
       </tbody> 
       {% endfor %}

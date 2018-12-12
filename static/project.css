@@ -58,6 +58,7 @@
   background-color: #e5e9ec;
   color: #e5e9ec;
   border-radius: 0px;
+  padding: 0px;
 }
 
 
@@ -118,9 +119,8 @@ p {
 h4 {
   font-family: serif;
   font-size: 26px;
-  padding: 2em;
+  padding: 1.5em;
   color: #10828C;
-  animation: sli 
 }
 
 img {
@@ -141,7 +141,7 @@ img {
 
 
 .wrapper {  
-  margin-top: 115px;
+  margin-top: 50px;
   margin-left: 10px;
   float:left;
 }

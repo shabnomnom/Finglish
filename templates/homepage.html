@@ -9,10 +9,12 @@ body {
   background-size:contain;
   background-position: 100% 0%;
   background-repeat: no-repeat ;
-
 }
+ 
 </style>
-<div class= "container">
+<span   class="row justify-content-start text-center" style="white-space: pre-line"> <h4>Welcome to Finglish!
+    Where learning farsi is easier than ever with smart flashcards</h4></span>
+<div class= "container">  
   <div class="col-md-4 text-center">
   <!-- add an if statement that desplay log in only if there is no session stored -->
   {% if  not user_id %}
@@ -34,6 +36,7 @@ body {
       </a>
 
   {% endif %}
+
 </div>
   </div> 
   <footer class="page-footer font-small blue">
