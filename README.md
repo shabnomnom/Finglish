@@ -1,4 +1,8 @@
-Finglish is a learning language app that helps users learn new Farsi words using a flashcard system. Inspired by the lack of pronunciation features in google translate for Farsi language, Finglish brings you pronunciation, translation and phonetic of most common Farsi words. In addition to the word search functionality, users are provided with digital flashcards that aid in memorization, as well as quizzes to help validate the words users have learned.In my recent project, I built a Python/Flask web application called Finglish. Finglish is designed to help users learn Farsi using flashcards. 
+# Finglish 
+
+
+Finglish is a learning language app that helps users learn new Farsi words using a flashcard system. Inspired by the lack of pronunciation features in google translate for Farsi language, Finglish brings you pronunciation, translation and phonetic of most common Farsi words. In addition to the word search functionality, users are provided with digital flashcards that aid in memorization, as well as quizzes to help validate the words users have learned.
+In my recent project, I built a Python/Flask web application called Finglish. Finglish is designed to help users learn Farsi using flashcards. 
 I built a Postgres database of scraped Farsi words and their translations using beautiful soup library. As an auditory learner, I integrated the pronunciation feature for the Farsi words using an API called forvo.com which crowdsources correct pronunciation. I queried my database using SQL alchemy to create on-demand user lessons that come with a set of flashcards. I used Jquery to demonstrate the flashcards content, and finally, integrated a combination of javascript and CSS to create and animate the flashcards and provide quiz results. 
 
 
