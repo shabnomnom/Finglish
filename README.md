@@ -34,25 +34,24 @@ I built a Postgres database of scraped Farsi words and their translations using 
 
 <a name="installation"/></a>
 ## Installation
-1. Pay for forvo.com basic plan and get a secret KEY and save your Forvo Secret key in secret.sh file 
-
-2. Create a virtual environment
+1. Pay for forvo.com basic plan and get a secret KEY and save your Forvo Secret key in secret.sh file <br/>
+2. Create a virtual environment<br/>
         - `$ virtualenv env`
-3. Activate virtual environment:
+3. Activate virtual environment:<br/>
         - `$ source env/bin/activate`
-4.Install requirements:
+4.Install requirements:<br/>
         - ` $ pip install -r requirements.txt`
-5. Create database:
+5. Create database:<br/>
         - `$ createdb Finglish`               
-6. Create your database tables:
+6. Create your database tables:<br/>
         - ` python3 model.py`
-8. Seed your data 
+8. Seed your data <br/>
         - `$ seed.py`
-9. Source secrets.sh:
+9. Source secrets.sh:<br/>
         - `$ source secrets.sh`
-10. Run the app:
+10. Run the app:<br/>
         -`$ python3 server.py`
-11. view your app at :
+11. view your app at :<br/>
         - http://localhost:5000/
         
 <a name="features"/></a>
