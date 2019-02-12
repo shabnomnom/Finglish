@@ -18,6 +18,7 @@ Finglish is a learning language app that helps users learn new Farsi words using
 
 I built a Postgres database of scraped Farsi words and their translations using beautiful soup library. As an auditory learner, I integrated the pronunciation feature for the Farsi words using an API called forvo.com which crowdsources correct pronunciation. I queried my database using SQL alchemy to create on-demand user lessons that come with a set of flashcards. I used JQuery to demonstrate the flashcards content, and finally, integrated a combination of javascript and CSS to create and animate the flashcards and provide quiz results. 
 
+# <img src="/static/model-diagram.png" width="600" height="300">
 
 <a name="requirement"/></a>
 ## Requirements
