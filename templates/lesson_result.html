@@ -1,6 +1,17 @@
 {% extends 'base.html' %}
 {% block content %}
 
+<style>
+body {
+  background-color: #f6fbfc ;
+  background-size:contain;
+  background-position: 100% 0%;
+  background-repeat: no-repeat ;
+  font-size: 1.5em;
+  font-family: unset;
+
+}
+</style>
 <div class="container ">
   <div class="row">
     <div class="col-md-12 text-center">
@@ -12,14 +23,10 @@
 
   <!-- Lesson {{lesson_num}}: .......................{{result}}% -->
   <br>
-  <a href = "/users/{{user_id}}/lesson/{{lesson_num}}/quiz/{{first_word.word_id}}" class="btn-info"> TryAgain 
+  <a href = "/users/{{user_id}}/lesson/{{lesson_num}}/quiz/{{first_word.word_id}}" class="text-info"> TryAgain 
   </a>
-  <br>
-
-
-
-
-   
+  <b>
+           
 </div> 
 </div> 
 </div>
