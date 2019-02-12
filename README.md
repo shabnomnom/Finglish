@@ -38,20 +38,21 @@ I built a Postgres database of scraped Farsi words and their translations using 
         - `$ virtualenv env`
 3. Activate virtual environment:<br/>
         - `$ source env/bin/activate`
-4.Install requirements:<br/>
+4. Install requirements:<br/>
         - `$ pip install -r requirements.txt`
 5. Create database:<br/>
         - `$ createdb Finglish`               
 6. Create your database tables:<br/>
-        - `python3 model.py`
-8. Seed your data: <br/>
+        - `$ python3 model.py`
+7. Seed your data: <br/>
         - `$ seed.py`
-9. Source secrets.sh:<br/>
+8. Source secrets.sh:<br/>
         - `$ source secrets.sh`
-10. Run the app:<br/>
+9. Run the app:<br/>
         -`$ python3 server.py`
-11. view your app at :<br/>
+10. view your app at :<br/>
         - http://localhost:5000/
+
         
 <a name="features"/></a>
 ## Features  
@@ -70,4 +71,6 @@ I built a Postgres database of scraped Farsi words and their translations using 
 <a name="future_features"/></a>
 ## Future Features   
 
-
+* Add searched words to lessons 
+* Have lessons to reflect the result of the quizes into creation of new lessons 
+* Add a notification for words with no pronouciation available 
