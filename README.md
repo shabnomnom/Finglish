@@ -21,7 +21,6 @@ I built a Postgres database of scraped Farsi words and their translations using 
 
 <a name="requirement"/></a>
 ## Requirements
-
 * Flask==1.0.2
 * Flask-DebugToolbar==0.10.1
 * Flask-SQLAlchemy==2.3.2
@@ -40,11 +39,11 @@ I built a Postgres database of scraped Farsi words and their translations using 
 3. Activate virtual environment:<br/>
         - `$ source env/bin/activate`
 4.Install requirements:<br/>
-        - ` $ pip install -r requirements.txt`
+        - `$ pip install -r requirements.txt`
 5. Create database:<br/>
         - `$ createdb Finglish`               
 6. Create your database tables:<br/>
-        - ` python3 model.py`
+        - `python3 model.py`
 8. Seed your data: <br/>
         - `$ seed.py`
 9. Source secrets.sh:<br/>
@@ -56,20 +55,19 @@ I built a Postgres database of scraped Farsi words and their translations using 
         
 <a name="features"/></a>
 ## Features  
-        -register as a new user and log in: 
-        ![](lesson.gif)
+* Register as a new user and log in: 
         
+* Search for a word in search bar:
 
+* Create a new lesson:
+   
+* Look at your lesson overview: 
+   
+* Look at your flashcard:
 
-        -Search for a word in search bar 
-        -create a new lesson 
-   
-        - look at your lesson overview 
-   
-        - look at your flashcard 
-   
-        - take a quiz 
-   
-   
+* Take a quiz 
+
+<a name="future_features"/></a>
+## Future Features   
 
 
