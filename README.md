@@ -57,16 +57,26 @@ I built a Postgres database of scraped Farsi words and their translations using 
 <a name="features"/></a>
 ## Features  
 * Register as a new user and log in: 
+![log In ](/Finglish_Project/static/gifssign_in.gif)
+<br/><br/><br/>
+
         
 * Search for a word in search bar:
-
-* Create a new lesson:
+![Seach for a Word](/Finglish_Project/static/gifs/Search_A_Word.gif)
+<br/><br/><br/>
    
 * Look at your lesson overview: 
+![Lesson Overview](/Finglish_Project/static/gifs/Lesson_Overview.gif)
+<br/><br/><br/>
    
 * Look at your flashcard:
+![Flash Cards](/Finglish_Project/static/gifs/flash_cards.gif)
+<br/><br/><br/>
 
-* Take a quiz 
+* Take a quiz:
+[Quiz](/Finglish_Project/static/gifs/Quiz.gif)
+<br/><br/><br/>
+
 
 <a name="future_features"/></a>
 ## Future Features   
