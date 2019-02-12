@@ -318,10 +318,10 @@ def validate_answers(user_id,lesson_num,word_id):
 
                 if answer == "correct" and previous_word_id:
                     session['answer_dict'][previous_word_id] = 1
-                    flash(f"correct answer is been saved {previous_word_id}") 
+                    # flash(f"correct answer is been saved {previous_word_id}") 
                 if answer == "incorrect" and previous_word_id:
                     session['answer_dict'][previous_word_id] = 0
-                    flash("incorrect answer is been saved",current_word_id)
+                    # flash("incorrect answer is been saved",current_word_id)
 
                 if i> 0:
                     back_word =lesson_vocabs_query[i-1].word_id
@@ -348,10 +348,10 @@ def showlesson_result(user_id,lesson_num, word_id):
 
     if answer == "correct" and previous_word_id:
         session['answer_dict'][previous_word_id] = 1
-        flash("correct answer is been saved") 
+        # flash("correct answer is been saved") 
     if answer == "incorrect" and previous_word_id:
         session['answer_dict'][previous_word_id] = 0
-        flash("incorrect answer is been saved")
+        # flash("incorrect answer is been saved")
 
     result_sum = sum(session['answer_dict'].values())
     result_total = len(session['answer_dict'])
@@ -445,7 +445,7 @@ def request_new_lesson(user_id):
 if __name__ == "__main__":
     # We have to set debug=True here, since it has to be True at the
     # point that we invoke the DebugToolbarExtension
-    app.debug = True
+    app.debug = False
     # make sure templates, etc. are not cached in debug mode
     app.jinja_env.auto_reload = app.debug
 

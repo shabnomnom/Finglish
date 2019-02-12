@@ -6,6 +6,7 @@
 {% if searched_word %}
 <h4 > {{searched_word.farsi}}<h4>
             <ul style="list-style-type:none">
+                <li> English: {{searched_word.english}}</li> 
                 <li> Phonetic: {{searched_word.farsi_phonetic}}</li> 
                 <li> 
                     <audio id='{{searched_word.farsi}}' controls="controls">
