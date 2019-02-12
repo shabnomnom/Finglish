@@ -1,4 +1,4 @@
-# Finglish 
+# <img src="/static/farsi-logo.png" width="200" height="72">
 
 Finglish is a learning language app that helps users learn new Farsi words using a flashcard system. Inspired by the lack of pronunciation feature in google translate for Farsi language, Finglish brings you pronunciation, translation and phonetic of most common Farsi words using flashcards. Once you are ready, you can take a quiz on each lesson and get an instant result. 
 
