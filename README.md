@@ -57,24 +57,29 @@ I built a Postgres database of scraped Farsi words and their translations using 
 <a name="features"/></a>
 ## Features  
 * Register as a new user and log in: 
+<br/><br/>
 ![log In ](static/gifs/sign_in.gif)
 <br/><br/><br/>
 
         
 * Search for a word in search bar:
+<br/><br/>
 ![Seach for a Word](static/gifs/Search_A_Word.gif)
 <br/><br/><br/>
    
 * Look at your lesson overview: 
+<br/><br/>
 ![Lesson Overview](static/gifs/Lesson_Overview.gif)
 <br/><br/><br/>
    
 * Look at your flashcard:
+<br/><br/>
 ![Flash Cards](/static/gifs/flash_cards.gif)
 <br/><br/><br/>
 
 * Take a quiz:
-[Quiz](/static/gifs/Quiz.gif)
+<br/><br/>
+![Quiz](/static/gifs/Quiz.gif)
 <br/><br/><br/>
 
 
