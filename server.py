@@ -10,7 +10,7 @@ from flask_debugtoolbar import DebugToolbarExtension
 from model import User, Word, Vocabulary, connect_to_db, db
 import random 
 
-import api_call 
+import API_call
 
 app = Flask(__name__)
 
