@@ -60,6 +60,7 @@ def pronunciation(farsi):
     # Do api_call(farsi_word)
     # Return simple json of {'url': '{farvo_url}'}
     json_payload = { 'url': api_call.word_url(farsi)}
+    print(jsonify(json_payload))
     return jsonify(json_payload)
 
 @app.route('/users')

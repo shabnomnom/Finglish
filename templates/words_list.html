@@ -10,11 +10,13 @@
                 <li> Phonetic: {{searched_word.farsi_phonetic}}</li> 
                 <li> 
                     <audio id='{{searched_word.farsi}}' controls="controls">
-                        <source id = "audio_src_{{searched_word.farsi}}" src="" type="audio/mpeg" >
-                        </source>
+                        <source id ="audio_src_{{searched_word.farsi}}" src="" type="audio/mpeg">
+    
                     </audio>
                 </li>
-
+                    <button id= "test"> 
+                    </button>
+                
                 
             </ul>
 
@@ -48,14 +50,3 @@
 </div> 
 
 {% endblock %}
-
-
-
-<!-- <div id={{word.farsi_word}}">
-                        <img id="playButton" src="/img/play-button width="360" height="200"> 
-                    </div>
-
-
-
-
- -->

@@ -1,7 +1,7 @@
   'use strict' 
 //url,.. error are keys 
 //  "this" would refer to the element that triggered the call
-// you can refer to it by its id whic is defined on the html side of the audio botton 
+// you can refer to it by its id which is defined on the html side of the audio botton 
 // 'audio' is referring to the tag 
 // #audio reffering to the id 
 // .class reffere to the class of elements wit the 
@@ -13,7 +13,6 @@ function getPronouciation(e){
     $.get(`/pronouciation/${this.id}`,
 
     (results) => { 
-        //console.log(results)
         console.log(results);
         console.log(this.id);
 
@@ -43,20 +42,9 @@ function getPronouciation(e){
 )};
 
 $("audio").on("click", getPronouciation);
+$('#test').on("click", ()=> alert("what's up"));
 
-// $('#playButton').on('click', (evt) => {
-//     evt.preventDefault();
-
-//     word = this.id
-
-//     $.get(`/pronouciation/${}`,
-//         (mp3Url) => {
-//             let song = new Audio(mp3Url);
-//             song.play();
-//         }
-//     )
-// });
-
+// add click handler to request a new lesson on click 
 $("#lesson").click(function(){
     console.log("I've been clicked!");
     let userId = this.getAttribute("data-user-id");
@@ -67,7 +55,13 @@ $("#lesson").click(function(){
     }});
 });
 
-
+//added click handler on clip card class to toggle (add and 
+//remove) hover 
+// getting the data attribute fro the farsi word from html
+// check to see if the hasbeencrecorded class is already 
+// in the .flip-card class, otherwise make an ajax call 
+//in success call back we add the hasbeenrecorded to the flipcard
+//class
 $(".flip-card").click(function() {
     const self = this;   //do this to have access to the element in the call back function 
     $(self).toggleClass("hover");
@@ -82,13 +76,7 @@ $(".flip-card").click(function() {
         });
     }
 });
-//added click handler on clip card class to toggle (add and 
-//remove) hover 
-// getting the data attribute fro the farsi word from html
-// check to see if the hasbeencrecorded class is already 
-// in the .flip-card class, otherwise make an ajax call 
-//in success call back we add the hasbeenrecorded to the flipcard
-//class
+
 
 
 
