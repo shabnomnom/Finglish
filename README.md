@@ -47,7 +47,7 @@ I built a Postgres database of scraped Farsi words and their translations using 
         - `$ python3 model.py`
 7. Seed your data: <br/>
         - `$ seed.py`
-8. Source secrets.sh:<br/>
+8. Move your forvo key to secret.sh file and run it :<br/>
         - `$ source secrets.sh`
 9. Run the app:<br/>
         -`$ python3 server.py`
