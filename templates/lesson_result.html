@@ -17,11 +17,9 @@ body {
     <div class="col-md-12 text-center">
 
 <h2> Nice Work  <h2>
-<h3> You  just studied 10 words!<h3>
+<h3> You  just studied {{result_total}} words!<h3>
 <h3> 
-
-
-  Lesson {{lesson_num}}: .......................{{result}}%
+  You got {{result_sum}} words right 
   <h3>
   <br>
   <a href = "/users/{{user_id}}/lesson/{{lesson_num}}/quiz/{{first_word.word_id}}" class="text-info"> TryAgain 

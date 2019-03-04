@@ -10,7 +10,7 @@ from flask_debugtoolbar import DebugToolbarExtension
 from model import User, Word, Vocabulary, connect_to_db, db
 import random 
 
-import API_call
+import API_Call
 
 app = Flask(__name__)
 
@@ -59,7 +59,7 @@ def pronunciation(farsi):
 
     # Do api_call(farsi_word)
     # Return simple json of {'url': '{farvo_url}'}
-    json_payload = { 'url': api_call.word_url(farsi)}
+    json_payload = { 'url': API_call.word_url(farsi)}
     print(jsonify(json_payload))
     return jsonify(json_payload)
 
@@ -285,6 +285,8 @@ def flashcards(user_id,lesson_num,word_id):
 @app.route("/users/<user_id>/lesson/<lesson_num>/quiz/<word_id>", methods=["GET", "POST"])
 def validate_answers(user_id,lesson_num,word_id):
     """validating answers and reporting a feedback """
+    if 'answer_dict' not in session:
+        session['answer_dict'] = {}
 
     lesson_vocabs_query= db.session\
     .query(Vocabulary)\
@@ -319,24 +321,23 @@ def validate_answers(user_id,lesson_num,word_id):
 
                 if answer == "correct" and previous_word_id:
                     session['answer_dict'][previous_word_id] = 1
-                    # flash(f"correct answer is been saved {previous_word_id}") 
+                    print("dict correct")
+                    flash(f"correct answer is been saved {previous_word_id}") 
                 if answer == "incorrect" and previous_word_id:
                     session['answer_dict'][previous_word_id] = 0
-                    # flash("incorrect answer is been saved",current_word_id)
+                    print("dict incorrect")
+                    flash("incorrect answer is been saved",current_word_id)
 
-                if i> 0:
+                if i > 0:
                     back_word =lesson_vocabs_query[i-1].word_id
                     # print("-----------")
                     # print(back_word)
-    if request.method == "GET": 
-        # print("get request")
-        # print(back_word)
 
-        return render_template("flashcard_quiz.html", user_id=user_id,
-        lesson_vocabs_query=lesson_vocabs_query,lesson_num=lesson_num, word_query=word_query,
-        word_id=word_id, next_word=next_word, back_word=back_word)        
+    return render_template("flashcard_quiz.html", user_id=user_id,
+    lesson_vocabs_query=lesson_vocabs_query,lesson_num=lesson_num, word_query=word_query,
+    word_id=word_id, next_word=next_word, back_word=back_word, first_word=first_word)        
 
-    else:
+    if request.method == "POST":
         return redirect(f"/users/{user_id}/lesson/{lesson_num}/quiz/{word_id}")
 
 @app.route("/users/<user_id>/lesson/<lesson_num>/quiz/<word_id>/result", methods=["Post"])
@@ -431,13 +432,11 @@ def request_new_lesson(user_id):
 
 
 
-
-
-
 if __name__ == "__main__":
     # We have to set debug=True here, since it has to be True at the
     # point that we invoke the DebugToolbarExtension
     app.debug = True 
+    app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
     # make sure templates, etc. are not cached in debug mode
     app.jinja_env.auto_reload = app.debug
 

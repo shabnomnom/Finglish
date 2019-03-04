@@ -9,6 +9,7 @@
 
 
 function getPronouciation(e){
+    console.log('TESTING');
     e.stopPropagation();
     $.get(`/pronouciation/${this.id}`,
 
