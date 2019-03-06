@@ -337,8 +337,8 @@ def validate_answers(user_id,lesson_num,word_id):
     lesson_vocabs_query=lesson_vocabs_query,lesson_num=lesson_num, word_query=word_query,
     word_id=word_id, next_word=next_word, back_word=back_word, first_word=first_word)        
 
-    if request.method == "POST":
-        return redirect(f"/users/{user_id}/lesson/{lesson_num}/quiz/{word_id}")
+    # if request.method == "POST":
+    #     return redirect(f"/users/{user_id}/lesson/{lesson_num}/quiz/{word_id}")
 
 @app.route("/users/<user_id>/lesson/<lesson_num>/quiz/<word_id>/result", methods=["Post"])
 def showlesson_result(user_id,lesson_num, word_id):
