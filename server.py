@@ -1,6 +1,5 @@
 
 """Finglish Dictionary """
-
 from jinja2 import StrictUndefined
 from sqlalchemy import func, and_, update
 
@@ -130,7 +129,7 @@ def login_process():
         session['current_user_id'] = current_user.id
         app.logger.info(str(session['current_user_id']))
         # flashing_welcome =flash("welcome {} you are logged in".format(current_user.first_name))
-        return redirect (f'/users/{current_user.id}')
+        return redirect ('/users/{}'.format(current_user.id))
     else: 
         # flashing_invalid_password=flash ("invalid password, please try again")
         return redirect("/")
@@ -322,7 +321,7 @@ def validate_answers(user_id,lesson_num,word_id):
                 if answer == "correct" and previous_word_id:
                     session['answer_dict'][previous_word_id] = 1
                     print("dict correct")
-                    flash(f"correct answer is been saved {previous_word_id}") 
+                    flash("correct answer is been saved }".format(previous_word_id)) 
                 if answer == "incorrect" and previous_word_id:
                     session['answer_dict'][previous_word_id] = 0
                     print("dict incorrect")
@@ -422,7 +421,7 @@ def request_new_lesson(user_id):
     new_lesson_num = user_lesson_num +1 
     lesson_generator(user_id,new_lesson_num)    
     
-    return redirect(f"/profile/{user_id}")
+    return redirect("/profile/{}".format(user_id))
 
 
 # @app.route ("weighted_word/lessons", methods=["POST", "GET"]) 

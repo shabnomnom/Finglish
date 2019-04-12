@@ -7,7 +7,7 @@ from pprint import pprint
 import json 
 import requests
 import os 
-
+# use requests library to make easy api call 
 
 forvo_key = os.environ["forvo_key"]  # os saves the token from the secrets.sh to a dictionary
                                                    # called os.environ.
@@ -21,13 +21,16 @@ def word_url(farsi):
 
     # https://apifree.forvo.com/key/95a12f9924eaad8e79c2a57a985fe650/format/xml/action/word-pronunciations/word/cat/language/en
 
+    # get us a response object 
     req = requests.get(url)
 
     # print(req.url)
 
     # saving the request as a json file 
     # request already return a python dictionary 
+    # response object has a .json method that returns list of dictunaries, items is the is the dict we want
     json_dict = req.json()
+
     # print("json_dict:",json_dict)
     if json_dict == {}:
         return None
