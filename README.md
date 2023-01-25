@@ -49,7 +49,7 @@ I built a Postgres database of scraped Farsi words and their translations using 
         - `$ seed.py`
 8. Move your forvo key to secret.sh file and run it :<br/>
         - `$ source secrets.sh`
-9. Run the app:<br/>
+9. Run the app:<br/>                                 
         -`$ python3 server.py`
 10. view your app at :<br/>
         - http://localhost:5000/

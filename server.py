@@ -10,7 +10,7 @@ from flask_debugtoolbar import DebugToolbarExtension
 from model import User, Word, Vocabulary, connect_to_db, db
 import random 
 
-import api_call 
+import API_Call as api_call
 
 app = Flask(__name__)
 
@@ -27,7 +27,8 @@ def index():
     """homepage"""
     #if the user is logged in , show their homepage 
     # session might have other stuff in it so it is safe to just check
-    #to see the user id in the session keys 
+    #to see the user id in the session keys
+    print("This is a print test number 2")
     if 'current_user_id' in session.keys():
         user_id = session['current_user_id']
         return render_template('homepage.html', user_id=user_id)
@@ -89,7 +90,7 @@ def registeration_process():
     password = request.form.get('password')
     age = request.form.get('age')
     country = request.form.get('country')
-
+    print(first_name,last_name)
     # Can probably optimize this by querying by ID or email
     if db.session.query(User).filter(User.email == email).all():
         flash("This email has already been registered to an existing user, please log in.")
@@ -421,35 +422,38 @@ def request_new_lesson(user_id):
     lesson_generator(user_id,new_lesson_num)    
     
     return redirect(f"/profile/{user_id}")
+@app.route("/add_new_word/<user_id>", methods=["POST"])
+def add_new_word(user_id):
+    user_id = session['current_user_id']
+    new_word_english = request.form.get('word')
+    new_word_phenetic = request.form.get('phenetic')
+    new_word_translation = request.form.get('translation')
 
+    
+    if db.session.query(Word).filter(Word.english == new_word_english).all() :
+        flash("This word has already exist.")
+        return render_template("words.html")
+    else:
+
+        new_word = Word(english = new_word_english.lower(), farsi_phonetic = new_word_phenetic, farsi = new_word_translation)
+
+        db.session.add(new_word)
+        db.session.commit()
 
 # @app.route ("weighted_word/lessons", methods=["POST", "GET"]) 
 # def lesson_generator_ww(user_id, lesson_num):
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 if __name__ == "__main__":
     # We have to set debug=True here, since it has to be True at the
     # point that we invoke the DebugToolbarExtension
-    app.debug = False
+    app.debug = True
     # make sure templates, etc. are not cached in debug mode
     app.jinja_env.auto_reload = app.debug
 
     connect_to_db(app)
+    print("connected to db")
 
     # Use the DebugToolbar
     DebugToolbarExtension(app)
