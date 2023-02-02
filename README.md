@@ -42,7 +42,7 @@ I built a Postgres database of scraped Farsi words and their translations using 
 4. Install requirements:<br/>
         - `$ pip install -r requirements.txt`
 5. Create database:<br/>
-        - `$ createdb Finglish`               
+        - `$ createdb  `               
 6. Create your database tables:<br/>
         - `$ python3 model.py`
 7. Seed your data: <br/>

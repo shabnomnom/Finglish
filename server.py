@@ -8,7 +8,8 @@ from flask import (Flask, render_template, redirect, request, flash, session, js
 from flask_debugtoolbar import DebugToolbarExtension
 
 from model import User, Word, Vocabulary, connect_to_db, db
-import random 
+import random
+import pprint
 
 import API_Call as api_call
 
@@ -31,6 +32,7 @@ def index():
     print("This is a print test number 2")
     if 'current_user_id' in session.keys():
         user_id = session['current_user_id']
+        
         return render_template('homepage.html', user_id=user_id)
     else:
 
@@ -161,7 +163,7 @@ def lesson_generator(user_id, lesson_num):
             .outerjoin(Vocabulary, and_(Word.id == Vocabulary.word_id, Vocabulary.user_id == user_id))\
             .filter(Vocabulary.word_id == None)\
             .order_by(func.random())\
-            .limit(11)\
+            .limit(3)\
             .all()
         
         print("words", lesson)
@@ -316,23 +318,23 @@ def validate_answers(user_id,lesson_num,word_id):
                 print("word_id",word_id)
                 print("previous word id",previous_word_id)
                 print("i",i)
-
-                if answer == "correct" and previous_word_id:
-                    session['answer_dict'][previous_word_id] = 1
-                    # flash(f"correct answer is been saved {previous_word_id}") 
-                if answer == "incorrect" and previous_word_id:
-                    session['answer_dict'][previous_word_id] = 0
-                    # flash("incorrect answer is been saved",current_word_id)
-
+            
+                if previous_word_id :
+                    session['answer_dict'][previous_word_id] = answer
+                    session.modified = True
+                    # flash(f"correct answer is been saved {previous_word_id}")
+                    
                 if i> 0:
                     back_word =lesson_vocabs_query[i-1].word_id
                     # print("-----------")
-                    # print(back_word)
+                    # print(back_word
+
+        
     if request.method == "GET": 
         # print("get request")
         # print(back_word)
 
-        return render_template("flashcard_quiz.html", user_id=user_id,
+        return render_template("flashcard_quiz.html", user_id = user_id,
         lesson_vocabs_query=lesson_vocabs_query,lesson_num=lesson_num, word_query=word_query,
         word_id=word_id, next_word=next_word, back_word=back_word)        
 
@@ -346,19 +348,15 @@ def showlesson_result(user_id,lesson_num, word_id):
 
     answer = request.form.get("answer")
     previous_word_id = request.form.get("previous_word_id")
+    print('************************')
+    print(session['answer_dict'])
+    result_sum = sum(int(session['answer_dict'].values()))
+    total_words = len(session['answer_dict'])
+    print("###############")
+    print(result_sum,total_words)
 
-    if answer == "correct" and previous_word_id:
-        session['answer_dict'][previous_word_id] = 1
-        # flash("correct answer is been saved") 
-    if answer == "incorrect" and previous_word_id:
-        session['answer_dict'][previous_word_id] = 0
-        # flash("incorrect answer is been saved")
-
-    result_sum = sum(session['answer_dict'].values())
-    result_total = len(session['answer_dict'])
-
-    #calculating the first vocab so fr try again ,to go back to beggining 
-    #of the lesson
+    #calculating the first vocab so if try again.go back to beginning 
+    # of the lesson
     first_word= db.session\
     .query(Vocabulary)\
     .filter(Vocabulary.user_id == user_id,Vocabulary.lesson_num == lesson_num)\
@@ -379,8 +377,8 @@ def showlesson_result(user_id,lesson_num, word_id):
         session.pop('answer_dict')
 
     return render_template("lesson_result.html",
-    lesson_num=lesson_num, user_id=user_id,result_sum=result_sum,
-    result_total=result_total, word_id=word_id,
+    lesson_num= lesson_num, user_id= user_id,
+    result_sum= result_sum, word_id=word_id,
     first_word=first_word)
 
 # TODO: make this a POST ONLY

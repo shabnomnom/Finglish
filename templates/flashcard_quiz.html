@@ -56,20 +56,20 @@ body {
         <button type="submit" class="btn-info next">Next
         </button>
         <br>
-        <input type="radio" name="answer" value="correct" class="btn-info"/>
+        <input type="radio" name="answer" value=1 class="btn-info"/>
           I got it!
           <br> 
-        <input type="radio" name="answer" value="incorrect" class="btn-info"/>
+        <input type="radio" name="answer" value=0 class="btn-info"/>
         I did not remember
         <input type="hidden" name= "previous_word_id" value={{word_id}}>   
       </form>
         {% endif %}
         {% if next_word is none %}
       <form action="/users/{{user_id}}/lesson/{{lesson_num}}/quiz/{{word_id}}/result" method="POST">
-        <input type="radio" name="answer" value="correct" class="btn-info"/>
+        <input type="radio" name="answer" value=1 class="btn-info"/>
           I got it!
           <br>
-          <input type="radio" name="answer" value="incorrect" class="btn-info"/>
+          <input type="radio" name="answer" value=0 class="btn-info"/>
           I did not remember
           <br>
           <input type="hidden" name= "previous_word_id" value={{word_id}}>
