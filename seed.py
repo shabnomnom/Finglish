@@ -64,14 +64,15 @@ def load_words():
 ###########################
 if __name__ == "__main__":
     connect_to_db(app)
+    
+    with app.app_context():
+        # In case tables haven't been created, create them
+        db.create_all()
 
-    # In case tables haven't been created, create them
-    db.create_all()
-
-    # Import different types of data
-    # load_users()
-    load_words()
-    # load_vocab_list()
+        # Import different types of data
+        # load_users()
+        load_words()
+        # load_vocab_list()
 
 
 

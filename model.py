@@ -23,7 +23,7 @@ class User(db.Model):
     last_name = db.Column(db.String(100), nullable=True)
     email = db.Column(db.String, nullable=True)
     password = db.Column(db.String, nullable=True)
-    age = db.Column(db.DateTime, nullable=True)
+    age = db.Column(db.String, nullable=True)
     country = db.Column(db.String, nullable=True)
 
     def __repr__(self):
@@ -84,8 +84,10 @@ class Vocabulary(db.Model):
     
     @property
     def weight(self):
-        vocab = Vocabulary.query.filter(vocab_id=self.id)
-        return (vocab.correct_count / vocab.seen_count)*100
+        """Calculate the weight based on correct vs seen count for this vocabulary entry."""
+        if self.seen_count > 0:
+            return (self.correct_count / self.seen_count) * 100
+        return 0
 
 
    
@@ -98,8 +100,8 @@ class Vocabulary(db.Model):
 def connect_to_db(app):
     """Connect the database to our Flask app."""
 
-    # Configure to use our PstgreSQL database with all default parameters 
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///finglish'
+    # Configure to use SQLite database (easier setup than PostgreSQL)
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///finglish.db'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     db.app = app
     db.init_app(app)
