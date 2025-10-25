@@ -84,9 +84,9 @@ class Vocabulary(db.Model):
     
     @property
     def weight(self):
-        vocab = Vocabulary.query.filter(Vocabulary.vocab_id == self.vocab_id).first()
-        if vocab and vocab.seen_count > 0:
-            return (vocab.correct_count / vocab.seen_count) * 100
+        """Calculate the weight based on correct vs seen count for this vocabulary entry."""
+        if self.seen_count > 0:
+            return (self.correct_count / self.seen_count) * 100
         return 0
 
 
