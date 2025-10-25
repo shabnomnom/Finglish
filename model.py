@@ -84,8 +84,10 @@ class Vocabulary(db.Model):
     
     @property
     def weight(self):
-        vocab = Vocabulary.query.filter(vocab_id=self.id)
-        return (vocab.correct_count / vocab.seen_count)*100
+        vocab = Vocabulary.query.filter(Vocabulary.vocab_id == self.vocab_id).first()
+        if vocab and vocab.seen_count > 0:
+            return (vocab.correct_count / vocab.seen_count) * 100
+        return 0
 
 
    
@@ -98,8 +100,8 @@ class Vocabulary(db.Model):
 def connect_to_db(app):
     """Connect the database to our Flask app."""
 
-    # Configure to use our PstgreSQL database with all default parameters 
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///finglish'
+    # Configure to use SQLite database (easier setup than PostgreSQL)
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///finglish.db'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     db.app = app
     db.init_app(app)
