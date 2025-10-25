@@ -4,13 +4,23 @@ from pprint import pprint
 import json 
 import requests
 import os 
-forvo_key = os.environ["forvo_key"]  # os saves the token from the secrets.sh to a dictionary
+
+# Check if forvo_key environment variable is set
+if 'forvo_key' not in os.environ:
+    print("⚠️  Warning: 'forvo_key' environment variable not set. Some features may not work. Set it with: export forvo_key='your_actual_forvo_key'")
+    forvo_key = None
+else:
+    forvo_key = os.environ["forvo_key"]  # os saves the token from the secrets.sh to a dictionary
                                                    # called os.environ.
                                                    # Run the source secrets.sh in the terminal before using.
 def word_url(farsi):
+    if forvo_key is None:
+        print("⚠️  Forvo API key not set. Pronunciation feature unavailable.")
+        return None
+    
     key = forvo_key
     url = f"https://apifree.forvo.com/key/{key}/format/json/action/word-pronunciations/word/{farsi}/language/fa"
-    # https://apifree.forvo.com/key/95a12f9924eaad8e79c2a57a985fe650/format/xml/action/word-pronunciations/word/cat/language/en
+    # Example URL format (with placeholder key): https://apifree.forvo.com/key/YOUR_KEY_HERE/format/xml/action/word-pronunciations/word/cat/language/en
 
     req = requests.get(url)
     # print(req.url)
